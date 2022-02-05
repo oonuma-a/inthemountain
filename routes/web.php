@@ -17,7 +17,7 @@ use App\Http\Controllers\itemController;
 */
 
 Route::get('/', function () {
-    return view('/shop/index');
+    return redirect('/shop/index');
 });
 Route::prefix('include')->group(function(){
     Route::match(['get','post'],'/head', [IncludeController::class, 'head'])->name('include.head');
