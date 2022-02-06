@@ -16,14 +16,15 @@ class itemController extends Controller
         return view('item.index');
 
     }
-    public function item_index_post(){
+    public function item_index_post(Request $request){
+
         return view('item.index');
     }
     public function item_create_get(){
-        return view('item.index');
+        return view('item.create');
     }
     public function item_create_post(){
-        return view('item.index');
+        return view('item.create');
     }
     public function item_edit_get(){
         return view('item.index');
