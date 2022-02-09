@@ -1,5 +1,9 @@
 @extends('layouts.layout')
+@section('css')
+    <link href="{{asset('/css/homepage_styles.css')}}" rel="stylesheet" />
+@endsection
 @section('content')
+
     <!-- Header-->
     <header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
@@ -19,26 +23,27 @@
                     <p>該当商品がありません。</p>
                 </tr>
             @else
+            
                 @foreach($itemdata as $data)
                     <div class="col mb-5">
                         <div class="card h-100">
-                            <form action="{{route('item.index')}}" method="get" name="itemForm">
+                            <form action="{{route('item.index')}}" method="get" name="itemForm_{{$loop->index}}">
                                 @csrf
                                 <input type="hidden" name="item_check_flg" value="1">
                                 <!-- Sale badge-->
                                 <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                                 <input type="hidden" name="id" value="{{$data->id}}">
                                 <!-- Product image-->
-                                <a href="javascript:itemForm.submit()">
-                                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                                <a href="javascript:itemForm_{{$loop->index}}.submit()">
+                                <img class="card-img-top" src="{{ Storage::url($data->image)}}">
                                 </a>
                                 <!-- Product details-->
                                 <div class="card-body p-4">
                                     <div class="text-center">
                                         <!-- Product name-->
-                                        <a href="javascript:itemForm.submit()">
+                                        <a href="javascript:itemForm_{{$loop->index}}.submit()">
                                             <h5 class="fw-bolder">{{$data->item_name}}</h5>
-                                        </a>
+                                        <a>
                                         <!-- Product reviews-->
                                         <div class="d-flex justify-content-center small text-warning mb-2">
                                             <div class="bi-star-fill"></div>

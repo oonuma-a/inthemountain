@@ -20,12 +20,22 @@ class ShopController extends Controller
             unset($item_new_data['_token']);
             $item_insert = new item;
             $item_insert->timestamps = false; 
+
+            //商品画像投稿処理
+            if(isset($request->image)){
+                $filename=$request->file('image')->getClientOriginalName();
+                $item_new_data['image']=$request->file('image')->store('public/image');
+            }
+
+
             $item_insert->fill($item_new_data)->save();
             //表示機能
             $itemdata = item::all();
-            return view('shop.index',compact('itemdata'));
+        }else{
+            //表示機能
+            $itemdata = item::all();
         }
-        return view('shop.index');
+        return view('shop.index',compact('itemdata'));
     }
     public function shop_create_get(){
         return view('shop.index');

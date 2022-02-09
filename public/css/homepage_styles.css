@@ -1177,6 +1177,7 @@ progress {
   .col-md-6 {
     flex: 0 0 auto;
     width: 50%;
+    margin:auto;
   }
 
   .col-md-7 {
@@ -4604,10 +4605,18 @@ textarea.form-control-lg {
   border-radius: calc(0.25rem - 1px);
 }
 
-.card-img,
-.card-img-top,
+.card-img,.card-img-top,
 .card-img-bottom {
   width: 100%;
+}
+.card-img-top{
+  max-width:253px;
+  max-height: 170px;
+  width:auto;
+  height:auto;
+  display: block;
+  margin:auto;
+  
 }
 
 .card-img,

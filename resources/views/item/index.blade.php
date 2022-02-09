@@ -1,10 +1,13 @@
 @extends('layouts.layout')
+@section('css')
+        <link href="{{asset('/css/item_styles.css')}}" rel="stylesheet" />
+@endsection
 @section('content')
  <!-- Product section-->
     <section class="py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
-                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ Storage::url($item_select->image)}}" alt="..." /></div>
                 <div class="col-md-6">
                     <div class="small mb-1">SKU: BST-498</div>
                     <h1 class="display-5 fw-bolder">{{$item_select->item_name}}</h1>

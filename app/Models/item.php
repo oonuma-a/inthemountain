@@ -12,5 +12,5 @@ class item extends Model
     public function getKeyType()
     {
         return 'string';
-    }    
+    }
 }

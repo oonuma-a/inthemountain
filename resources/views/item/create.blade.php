@@ -4,7 +4,7 @@
     <section class="py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
-                    <form action="{{route('shop.index')}}" method="post" name="itemForm">
+                    <form action="{{route('shop.index')}}" method="post" name="itemForm" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="item_insert_flg" value="1">
                         <input type="hidden" name="user_id" value="1">
@@ -15,7 +15,7 @@
                         item_text<br>
                         <input type="text" name="item_text" value="1"><br>
                         image<br>
-                        <input type="text" name="image" value="1"><br>
+                        <input type="file" name="image" id="image"><br>
                         price<br>
                         <input type="text" name="price" value="1"><br>
                         discount_flg<br>

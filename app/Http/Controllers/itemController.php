@@ -17,8 +17,13 @@ class itemController extends Controller
 
     }
     public function item_index_post(Request $request){
-
+        //商品情報表示画面
+        if(isset($request->item_check_flg)){
+            $item_select = item::find($request->id);
+            return view('item.index', compact('item_select'));
+        }
         return view('item.index');
+
     }
     public function item_create_get(){
         return view('item.create');
