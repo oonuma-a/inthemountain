@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\item;
 use App\Models\shop;
+use Illuminate\Support\Facades\Storage;
 
 
 class ShopController extends Controller
@@ -20,15 +21,19 @@ class ShopController extends Controller
             unset($item_new_data['_token']);
             $item_insert = new item;
             $item_insert->timestamps = false; 
-
             //商品画像投稿処理
             if(isset($request->image)){
                 $filename=$request->file('image')->getClientOriginalName();
                 $item_new_data['image']=$request->file('image')->store('public/image');
             }
-
-
             $item_insert->fill($item_new_data)->save();
+            //表示機能
+            $itemdata = item::all();
+        //商品削除処理
+        }else if(isset($request->item_delete_flg)){
+            $deleteId = item::find($request->id);
+            Storage::delete('public/image', $deleteId->image);
+            $deleteId = item::find($request->id)->delete();
             //表示機能
             $itemdata = item::all();
         }else{

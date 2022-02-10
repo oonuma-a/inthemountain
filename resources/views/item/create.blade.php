@@ -1,4 +1,7 @@
 @extends('layouts.layout')
+@section('css')
+        <link href="{{asset('/css/item_styles.css')}}" rel="stylesheet" />
+@endsection
 @section('content')
  <!-- Product section-->
     <section class="py-5">
