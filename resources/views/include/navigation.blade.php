@@ -19,6 +19,10 @@
 				<li class="nav-item"><a class="nav-link" href="{{route('item.create')}}">Sell<br>商品を出品</a></li>
 			</ul>
 			<form class="d-flex">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+					<li class="nav-item"><a class="nav-link active" aria-current="page" href="{{route('user.create')}}">sign up<br>新規登録</a></li>
+					<li class="nav-item"><a class="nav-link" href="{{route('user.index')}}">Login<br>ログイン</a></li>
+				</ul>
 				<button class="btn btn-outline-dark" type="submit">
 					<i class="bi-cart-fill me-1"></i>
 					Cart

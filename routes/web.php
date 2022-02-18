@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IncludeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\itemController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,10 +45,10 @@ Route::prefix('item')->group(function(){
     Route::post('/edit',  [itemController::class, 'item_edit_post']);
 });
 Route::prefix('user')->group(function(){
-    Route::get('/index',  [userController::class, 'user_index_get'])->name('user.index');
-    Route::post('/index',  [userController::class, 'user_index_post']);
-    Route::get('/create',  [userController::class, 'user_create_get'])->name('user.create');
-    Route::post('/create',  [userController::class, 'user_create_post']);
-    Route::get('/edit',  [userController::class, 'user_edit_get'])->name('user.edit');
-    Route::post('/edit',  [userController::class, 'user_edit_post']);
+    Route::get('/index',  [UserController::class, 'user_index_get'])->name('user.index');
+    Route::post('/index',  [UserController::class, 'user_index_post']);
+    Route::get('/create',  [UserController::class, 'user_create_get'])->name('user.create');
+    Route::post('/create',  [UserController::class, 'user_create_post']);
+    Route::get('/edit',  [UserController::class, 'user_edit_get'])->name('user.edit');
+    Route::post('/edit',  [UserController::class, 'user_edit_post']);
 });
