@@ -17,12 +17,13 @@ class CreateItem extends Migration
             $table->increments('id')->unique();
             $table->string('user_id',30);
             $table->string('item_name',30);
+            $table->integer('item_number',false,false)->unsigned();
             $table->string('item_category',10);
             $table->text('item_text',1000);
-            $table->text('image');
+            $table->text('image')->default(null)->nullable();
             $table->integer('price',false,false)->unsigned();
-            $table->integer('discount_flg',false,false)->unsigned()->default('0')->length(1);
             $table->integer('discount_price',false,false)->unsigned()->default(null)->nullable();
+            $table->timestamp('update_at')->useCurrent()->default(null)->nullable();
         });
     }
 

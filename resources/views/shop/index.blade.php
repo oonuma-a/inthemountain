@@ -39,15 +39,15 @@
                         <option value="{{$paginate}}">{{$paginate}}</option>件
                     @endforeach
                 @endif
-            </select>
+            </select>件
         </form>
 
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-            @if(is_null($itemdata))
+            @if(count($itemdata) == 0)
                 <tr>
-                    <p>該当商品がありません。</p>
+                    <p>商品がありません。</p>
                 </tr>
             @else
                 @foreach($itemdata as $data)
@@ -60,9 +60,15 @@
                                 <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                                 <input type="hidden" name="id" value="{{$data->id}}">
                                 <!-- Product image-->
-                                <a href="javascript:itemForm_{{$loop->index}}.submit()">
-                                <img class="card-img-top" src="{{ Storage::url($data->image)}}">
-                                </a>
+                                @if(is_null($data->image))
+                                    <a href="javascript:itemForm_{{$loop->index}}.submit()">
+                                        <img class="card-img-top" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
+                                    </a>
+                                @else
+                                    <a href="javascript:itemForm_{{$loop->index}}.submit()">
+                                        <img class="card-img-top" src="{{ Storage::url($data->image)}}" alt="商品の画像">
+                                    </a>
+                                @endif
                                 <!-- Product details-->
                                 <div class="card-body p-4">
                                     <div class="text-center">
@@ -80,7 +86,7 @@
                                         </div>
                                         <!-- Product price-->
                                         <span class="text-muted text-decoration-line-through">$20.00</span>
-                                        ¥{{$data->price}}
+                                        <span>¥{{$data->price}}</span>
                                     </div>
                                 </div>
                                 <!-- Product actions-->
@@ -98,11 +104,12 @@
                                 </form>
                             </div> 
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <form action="{{route('item.index')}}" method="get" name="itemUpdateForm_{{$loop->index}}">
+                                <form action="{{route('item.edit')}}" method="get" name="itemUpdateForm_{{$loop->index}}">
                                     @csrf
-                                    <input type="hidden" name="item_update_flg" value="1">
                                     <input type="hidden" name="id" value="{{$data->id}}">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="javascript:itemUpdateForm_{{$loop->index}}.submit()">商品を編集</a></div>
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark mt-auto" href="javascript:itemUpdateForm_{{$loop->index}}.submit()">商品を編集</a>
+                                    </div>
                                 </form>
                             </div> 
                         </div>

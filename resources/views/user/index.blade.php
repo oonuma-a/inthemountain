@@ -1,134 +1,164 @@
 @extends('layouts.layout')
-@section('css')   
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
-
-    <!-- All the files that are required -->
-    <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-
-    <link href="{{asset('/css/login_style.css')}}" rel="stylesheet" />
-    <script src="{{asset('/js/login_scripts.js')}}"></script>
+@section('css')
+    <title>Windmill Dashboard</title>
+    <link href="{{asset('/css/list_style.css')}}" rel="stylesheet" />
+    <script src="{{asset('/js/charts-lines.js')}}" defer></script>
+    <script src="{{asset('/js/charts-pie.js')}}" defer></script>
 @endsection
 @section('content')
-<div class="container">
-    <!-- Where all the magic happens -->
-    <!-- LOGIN FORM -->
-    <div class="text-center" style="padding:50px 0">
-        <div class="logo">ログイン</div>
-        <!-- Main Form -->
-        <div class="login-form-1">
-            <form id="login-form" class="text-left" name="login-form">
-                <div class="login-form-main-message"></div>
-                <div class="main-login-form">
-                    <div class="login-group">
-                        <div class="form-group">
-                            <label for="lg_username" class="sr-only">ユーザー名</label>
-                            <input type="text" class="form-control" id="lg_username" name="lg_username" placeholder="ここに入力してください。">
+  <body>
+        <main class="h-full overflow-y-auto">
+          <div class="container px-6 mx-auto grid">
+            <h2
+              class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+            >
+              Dashboard
+            </h2>
+            <!-- New Table -->
+            <div class="w-full overflow-hidden rounded-lg shadow-xs">
+              <div class="w-full overflow-x-auto">
+                <table class="w-full whitespace-no-wrap">
+                  <thead>
+                    <tr
+                      class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+                    >
+                      <th class="px-4 py-3">Client</th>
+                      <th class="px-4 py-3">Amount</th>
+                      <th class="px-4 py-3">Status</th>
+                      <th class="px-4 py-3">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+                  >
+                    <tr class="text-gray-700 dark:text-gray-400">
+                      <td class="px-4 py-3">
+                        <div class="flex items-center text-sm">
+                          <!-- Avatar with inset shadow -->
+                          <div
+                            class="relative hidden w-8 h-8 mr-3 rounded-full md:block"
+                          >
+                            <img
+                              class="object-cover w-full h-full rounded-full"
+                              src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                              alt=""
+                              loading="lazy"
+                            />
+                            <div
+                              class="absolute inset-0 rounded-full shadow-inner"
+                              aria-hidden="true"
+                            ></div>
+                          </div>
+                          <div>
+                            <p class="font-semibold">Hans Burger</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">
+                              10x Developer
+                            </p>
+                          </div>
                         </div>
-                        <div class="form-group">
-                            <label for="lg_password" class="sr-only">パスワード</label>
-                            <input type="password" class="form-control" id="lg_password" name="lg_password" placeholder="ここに入力してください。">
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                        $ 863.45
+                      </td>
+                      <td class="px-4 py-3 text-xs">
+                        <span
+                          class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+                        >
+                          Approved
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                        6/10/2020
+                      </td>
+                    </tr>
+
+                    <tr class="text-gray-700 dark:text-gray-400">
+                      <td class="px-4 py-3">
+                        <div class="flex items-center text-sm">
+                          <!-- Avatar with inset shadow -->
+                          <div
+                            class="relative hidden w-8 h-8 mr-3 rounded-full md:block"
+                          >
+                            <img
+                              class="object-cover w-full h-full rounded-full"
+                              src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                              alt=""
+                              loading="lazy"
+                            />
+                            <div
+                              class="absolute inset-0 rounded-full shadow-inner"
+                              aria-hidden="true"
+                            ></div>
+                          </div>
+                          <div>
+                            <p class="font-semibold">Hans Burger</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">
+                              10x Developer
+                            </p>
+                          </div>
                         </div>
-                        <div class="form-group login-group-checkbox">
-                            <input type="checkbox" id="lg_remember" name="lg_remember">
-                            <label for="lg_remember">ユーザー名とパスワードを保存する</label>
-                        </div>
-                    </div>
-                    <div  class="login-btn">
-                        <a href="javascript:login-form.submit()">ログインする</a>
-                    </div>
-                </div>
-                    <div  class="login-btn">
-                        <div class="etc-login-form">
-                            <p><a href="#">新規ユーザー登録</a></p>
-                        </div>
-                    </div>
-            </form>
-        </div>
-        <!-- end:Main Form -->
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                        $ 863.45
+                      </td>
+                      <td class="px-4 py-3 text-xs">
+                        <span
+                          class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+                        >
+                          Approved
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                        6/10/2020
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+              >
+                <span class="flex items-center col-span-3">
+                  Showing 21-30 of 100
+                </span>
+                <span class="col-span-2"></span>
+                <!-- Pagination -->
+                <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+                  <nav aria-label="Table navigation">
+                    <ul class="inline-flex items-center">
+                      <li>
+                        <button
+                          class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                          aria-label="Previous"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="w-4 h-4 fill-current"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"
+                              fill-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
+                        >
+                          1
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+                </span>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
 
-    <!-- REGISTRATION FORM -->
-    <div class="text-center" style="padding:50px 0">
-        <div class="logo">register</div>
-        <!-- Main Form -->
-        <div class="login-form-1">
-            <form id="register-form" class="text-left">
-                <div class="login-form-main-message"></div>
-                <div class="main-login-form">
-                    <div class="login-group">
-                        <div class="form-group">
-                            <label for="reg_username" class="sr-only">Email address</label>
-                            <input type="text" class="form-control" id="reg_username" name="reg_username" placeholder="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="reg_password" class="sr-only">Password</label>
-                            <input type="password" class="form-control" id="reg_password" name="reg_password" placeholder="password">
-                        </div>
-                        <div class="form-group">
-                            <label for="reg_password_confirm" class="sr-only">Password Confirm</label>
-                            <input type="password" class="form-control" id="reg_password_confirm" name="reg_password_confirm" placeholder="confirm password">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="reg_email" class="sr-only">Email</label>
-                            <input type="text" class="form-control" id="reg_email" name="reg_email" placeholder="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="reg_fullname" class="sr-only">Full Name</label>
-                            <input type="text" class="form-control" id="reg_fullname" name="reg_fullname" placeholder="full name">
-                        </div>
-                        
-                        <div class="form-group login-group-checkbox">
-                            <input type="radio" class="" name="reg_gender" id="male" placeholder="username">
-                            <label for="male">male</label>
-                            
-                            <input type="radio" class="" name="reg_gender" id="female" placeholder="username">
-                            <label for="female">female</label>
-                        </div>
-                        
-                        <div class="form-group login-group-checkbox">
-                            <input type="checkbox" class="" id="reg_agree" name="reg_agree">
-                            <label for="reg_agree">i agree with <a href="#">terms</a></label>
-                        </div>
-                    </div>
-                    <button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
-                </div>
-                <div class="etc-login-form">
-                    <p>already have an account? <a href="#">login here</a></p>
-                </div>
-            </form>
-        </div>
-        <!-- end:Main Form -->
-    </div>
-
-    <!-- FORGOT PASSWORD FORM -->
-    <div class="text-center" style="padding:50px 0">
-        <div class="logo">forgot password</div>
-        <!-- Main Form -->
-        <div class="login-form-1">
-            <form id="forgot-password-form" class="text-left">
-                <div class="etc-login-form">
-                    <p>When you fill in your registered email address, you will be sent instructions on how to reset your password.</p>
-                </div>
-                <div class="login-form-main-message"></div>
-                <div class="main-login-form">
-                    <div class="login-group">
-                        <div class="form-group">
-                            <label for="fp_email" class="sr-only">Email address</label>
-                            <input type="text" class="form-control" id="fp_email" name="fp_email" placeholder="email address">
-                        </div>
-                    </div>
-                    <button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
-                </div>
-                <div class="etc-login-form">
-                    <p>already have an account? <a href="#">login here</a></p>
-                    <p>new user? <a href="#">create new account</a></p>
-                </div>
-            </form>
-        </div>
-        <!-- end:Main Form -->
-    </div>
-<div>
-@endsection
+    @endsection

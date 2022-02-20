@@ -14,18 +14,33 @@
                         item_name<br>
                         <input type="text" name="item_name" value="1"><br>
                         item_category<br>
-                        <input type="text" name="item_category" value="1"><br>
+                        <select name="item_category">
+                            <option value="アウター">アウター</option>
+                            <option value="レインウェア">レインウェア</option>
+                            <option value="インナー">インナー</option>
+                            <option value="スウェット">スウェット</option>
+                            <option value="パンツ">パンツ</option>
+                            <option value="アンダーウェア">アンダーウェア</option>
+                            <option value="ハイキングシューズ">ハイキングシューズ</option>
+                            <option value="トレッキングシューズ">トレッキングシューズ</option>
+                            <option value="アルパインブーツ">アルパインブーツ</option>
+                            <option value="スニーカー">スニーカー</option>
+                            <option value="バッグ/リュック">バッグ/リュック</option>
+                            <option value="帽子/ハット/キャップ">帽子/ハット/キャップ</option>
+                            <option value="手袋/グローブ">手袋/グローブ</option>
+                            <option value="登山グッズ">登山グッズ</option>
+                        </select><br>
                         item_text<br>
                         <input type="text" name="item_text" value="1"><br>
                         image<br>
                         <input type="file" name="image" id="image"><br>
                         price<br>
                         <input type="text" name="price" value="1"><br>
-                        discount_flg<br>
-                        <input type="text" name="discount_flg" value="1"><br>
                         discount_price<br>
                         <input type="text" name="discount_price" value="1"><br>
-                        <a href="javascript:itemForm.submit()">aaa</a>
+                        数量
+                        <input type="text" name="item_number" value="100"><br>
+                        <a href="javascript:itemForm.submit()">商品登録</a>
                     </form>    
                
                             </div>

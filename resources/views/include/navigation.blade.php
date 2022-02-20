@@ -20,8 +20,9 @@
 			</ul>
 			<form class="d-flex">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+					<li class="nav-item"><a class="nav-link active" aria-current="page" href="{{route('user.index')}}">sign up<br>ユーザー一覧</a></li>
 					<li class="nav-item"><a class="nav-link active" aria-current="page" href="{{route('user.create')}}">sign up<br>新規登録</a></li>
-					<li class="nav-item"><a class="nav-link" href="{{route('user.index')}}">Login<br>ログイン</a></li>
+					<li class="nav-item"><a class="nav-link" href="{{route('auth.index')}}">Login<br>ログイン</a></li>
 				</ul>
 				<button class="btn btn-outline-dark" type="submit">
 					<i class="bi-cart-fill me-1"></i>

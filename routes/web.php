@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IncludeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\itemController;
@@ -19,6 +20,9 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return redirect('shop/index');
+});
+Route::prefix('auth')->group(function(){
+    Route::get('/index',  [AuthController::class, 'auth_index_get'])->name('auth.index');
 });
 Route::prefix('include')->group(function(){
     Route::match(['get','post'],'/head', [IncludeController::class, 'head'])->name('include.head');

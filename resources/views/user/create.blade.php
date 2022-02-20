@@ -1,132 +1,79 @@
 @extends('layouts.layout')
 @section('css')   
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
 
     <!-- All the files that are required -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    
+
+    <link href="{{asset('/css/login_style.css')}}" rel="stylesheet" />
     <script src="{{asset('/js/login_scripts.js')}}"></script>
 @endsection
 @section('content')
-    <!-- Where all the magic happens -->
-    <!-- LOGIN FORM -->
-    <div class="text-center" style="padding:50px 0">
-        <div class="logo">login</div>
-        <!-- Main Form -->
-        <div class="login-form-1">
-            <form id="login-form" class="text-left">
-                <div class="login-form-main-message"></div>
-                <div class="main-login-form">
-                    <div class="login-group">
-                        <div class="form-group">
-                            <label for="lg_username" class="sr-only">Username</label>
-                            <input type="text" class="form-control" id="lg_username" name="lg_username" placeholder="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="lg_password" class="sr-only">Password</label>
-                            <input type="password" class="form-control" id="lg_password" name="lg_password" placeholder="password">
-                        </div>
-                        <div class="form-group login-group-checkbox">
-                            <input type="checkbox" id="lg_remember" name="lg_remember">
-                            <label for="lg_remember">remember</label>
-                        </div>
-                    </div>
-                    <button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
-                </div>
-                <div class="etc-login-form">
-                    <p>forgot your password? <a href="#">click here</a></p>
-                    <p>new user? <a href="#">create new account</a></p>
-                </div>
-            </form>
-        </div>
-        <!-- end:Main Form -->
-    </div>
+    <div class="container">
+        <!-- Where all the magic happens -->
+        <!-- REGISTRATION FORM -->
+        <div class="text-center" style="padding:50px 0">
+            <div class="logo">ユーザー登録</div>
+            <!-- Main Form -->
+            <div class="login-form-1">
+                <form id="register-form" class="text-left" name="registform" method="post" action="{{route('shop.index')}}">
+                    @csrf
+                    <input type="hidden" name="user_create_flg" value="1">
+                    <div class="login-form-main-message"></div>
+                    <div class="main-login-form">
+                        <div class="login-group">
+                            <div class="form-group">
+                                <label for="user_id" class="sr-only">ログインID</label>
+                                <input type="text" class="form-control" id="user_id" name="user_id" placeholder="ログインIDを入力してください">
+                            </div>
 
-    <!-- REGISTRATION FORM -->
-    <div class="text-center" style="padding:50px 0">
-        <div class="logo">register</div>
-        <!-- Main Form -->
-        <div class="login-form-1">
-            <form id="register-form" class="text-left">
-                <div class="login-form-main-message"></div>
-                <div class="main-login-form">
-                    <div class="login-group">
-                        <div class="form-group">
-                            <label for="reg_username" class="sr-only">Email address</label>
-                            <input type="text" class="form-control" id="reg_username" name="reg_username" placeholder="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="reg_password" class="sr-only">Password</label>
-                            <input type="password" class="form-control" id="reg_password" name="reg_password" placeholder="password">
-                        </div>
-                        <div class="form-group">
-                            <label for="reg_password_confirm" class="sr-only">Password Confirm</label>
-                            <input type="password" class="form-control" id="reg_password_confirm" name="reg_password_confirm" placeholder="confirm password">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="reg_email" class="sr-only">Email</label>
-                            <input type="text" class="form-control" id="reg_email" name="reg_email" placeholder="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="reg_fullname" class="sr-only">Full Name</label>
-                            <input type="text" class="form-control" id="reg_fullname" name="reg_fullname" placeholder="full name">
-                        </div>
-                        
-                        <div class="form-group login-group-checkbox">
-                            <input type="radio" class="" name="reg_gender" id="male" placeholder="username">
-                            <label for="male">male</label>
+                            <div class="form-group">
+                                <label for="reg_password" class="sr-only">ログインパスワード</label>
+                                <input type="password" class="form-control" id="reg_password" name="reg_password" placeholder="パスワードを入力してください">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_password_confirm" class="sr-only">ログインパスワード（確認用）</label>
+                                <input type="password" class="form-control" id="reg_password_confirm" name="reg_password_confirm" placeholder="パスワードを入力してください（確認用）">
+                            </div>
                             
-                            <input type="radio" class="" name="reg_gender" id="female" placeholder="username">
-                            <label for="female">female</label>
+                            <div class="form-group">
+                                <label for="user_name" class="sr-only">お名前</label>
+                                <input type="text" class="form-control" id="user_name" name="user_name" placeholder="お名前を入力してください">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_email" class="sr-only">メールアドレス</label>
+                                <input type="text" class="form-control" id="reg_email" name="reg_email" placeholder="メールアドレスを入力してください">
+                            </div>
+                            @if(isset($user_authority))
+                                <div class="form-group">
+                                    <label for="user_authority" class="sr-only">権限（管理者用）</label><br>
+                                    <select name="user_authority" id="user_authority">
+                                        <option value="0" class="form-control" >一般</option>
+                                        <option value="1" class="form-control" >管理者</option>
+                                    </select>
+                                </div>    
+                            @else
+                                <input type="hidden" name="user_authority" id="user_authority" value="0">
+                            @endif
                         </div>
-                        
-                        <div class="form-group login-group-checkbox">
-                            <input type="checkbox" class="" id="reg_agree" name="reg_agree">
-                            <label for="reg_agree">i agree with <a href="#">terms</a></label>
+                        <div  class="login-btn">
+                            <a href="javascript:registform.submit()">登録する</a> 
                         </div>
                     </div>
-                    <button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
+                </form>
+                <div  class="login-btn">
+                    <div class="etc-login-form">
+                        <p><a href="{{route('auth.index')}}">ログインする</a></p>
+                    </div>
                 </div>
-                <div class="etc-login-form">
-                    <p>already have an account? <a href="#">login here</a></p>
-                </div>
-            </form>
+            </div>
+            <!-- end:Main Form -->
         </div>
-        <!-- end:Main Form -->
     </div>
 
-    <!-- FORGOT PASSWORD FORM -->
-    <div class="text-center" style="padding:50px 0">
-        <div class="logo">forgot password</div>
-        <!-- Main Form -->
-        <div class="login-form-1">
-            <form id="forgot-password-form" class="text-left">
-                <div class="etc-login-form">
-                    <p>When you fill in your registered email address, you will be sent instructions on how to reset your password.</p>
-                </div>
-                <div class="login-form-main-message"></div>
-                <div class="main-login-form">
-                    <div class="login-group">
-                        <div class="form-group">
-                            <label for="fp_email" class="sr-only">Email address</label>
-                            <input type="text" class="form-control" id="fp_email" name="fp_email" placeholder="email address">
-                        </div>
-                    </div>
-                    <button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
-                </div>
-                <div class="etc-login-form">
-                    <p>already have an account? <a href="#">login here</a></p>
-                    <p>new user? <a href="#">create new account</a></p>
-                </div>
-            </form>
-        </div>
-        <!-- end:Main Form -->
-    </div>
+
+
+    <div>
 @endsection

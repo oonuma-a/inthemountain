@@ -80,7 +80,7 @@ a:hover {
   border: 0;
   box-shadow: 0 0 0;
   border-radius: 0;
-  background: transparent;
+  background: #fff;
   color: #555555;
   padding: 7px 0;
   font-weight: bold;
@@ -292,12 +292,14 @@ textarea.form-control-lg {
 }
 
 .login-form-1 .form-control::-webkit-input-placeholder {
-  color: #999999;
+  color: #ccc;
+  padding: 0 5px;
 }
 .login-form-1 .form-control:-moz-placeholder,
 .login-form-1 .form-control::-moz-placeholder,
 .login-form-1 .form-control:-ms-input-placeholder {
-  color: #999999;
+  color: #ccc;
+  padding: 0 5px;
 }
 .login-form-1 .form-group {
   margin-bottom: 0;
@@ -309,8 +311,8 @@ textarea.form-control-lg {
   border-bottom: 0;
 }
 .login-group {
-  background: #ffffff;
-  color: #999999;
+  background: #eee;
+  color: #666;
   border-radius: 8px;
   width: 500px;
   padding: 10px 20px;
