@@ -6,7 +6,6 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
 				<li class="nav-item"><a class="nav-link active" aria-current="page" href="{{route('shop.index')}}">Online Shop<br>オンラインショップ</a></li>
-				<li class="nav-item"><a class="nav-link" href="#!">About<br>商品について</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sale List<br>商品一覧</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -16,14 +15,29 @@
 						<li><a class="dropdown-item" href="#!">新着商品</a></li>
 					</ul>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="{{route('item.create')}}">Sell<br>商品を出品</a></li>
 			</ul>
-			<form class="d-flex">
+			<form class="d-flex" method="get" action="{{route('user.edit')}}" name="editform">
+				@csrf
+				<input type="hidden" name="user_update_flg" value="1">
+				<input type="hidden" name="id" value="1">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-					<li class="nav-item"><a class="nav-link active" aria-current="page" href="{{route('user.index')}}">sign up<br>ユーザー一覧</a></li>
-					<li class="nav-item"><a class="nav-link active" aria-current="page" href="{{route('user.create')}}">sign up<br>新規登録</a></li>
+					<li class="nav-item"><a class="nav-link active" aria-current="page" href="javascript:editform.submit()">update<br>登録情報変更</a></li>
+					<li class="nav-item"><a class="nav-link active" aria-current="page" href="{{route('user.create')}}">register<br>新規登録</a></li>
 					<li class="nav-item"><a class="nav-link" href="{{route('auth.index')}}">Login<br>ログイン</a></li>
+
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin menu<br>管理者メニュー</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li><a class="dropdown-item" href="#!">管理者メニュー</a></li>
+							<li><hr class="dropdown-divider" /></li>
+							<li><a class="dropdown-item" href="{{route('user.index')}}">ユーザー一覧</a></li>
+							<li><a class="dropdown-item" href="{{route('item.create')}}">商品追加</a></li>
+						</ul>
+					</li>
 				</ul>
+			</form>
+			<form class="d-flex">
+				@csrf
 				<button class="btn btn-outline-dark" type="submit">
 					<i class="bi-cart-fill me-1"></i>
 					Cart

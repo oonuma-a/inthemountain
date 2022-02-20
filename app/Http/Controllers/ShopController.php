@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\item;
 use App\Models\shop;
+use App\Models\users;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,12 +17,12 @@ class ShopController extends Controller
         $paginateArray = array(10,20,60,100);
         //ページネーション
         if(isset($request->item_pagination)){
-            $itemdata = item::paginate($request->item_pagination);
+            $itemdata = item::latest('update_at')->paginate($request->item_pagination);
             $paginateChangeValue = $request->item_pagination;
             return view('shop.index',compact('itemdata','paginateChangeValue','paginateArray'));
         }
         //表示機能
-        $itemdata = item::paginate(8);
+        $itemdata = item::latest('update_at')->paginate(8);
         return view('shop.index',compact('itemdata','paginateArray'));
     }
     public function shop_index_post(Request $request){
@@ -31,7 +32,6 @@ class ShopController extends Controller
             $itemInsertData = $request->all();
             unset($itemInsertData['_token']);
             $insertItem = new item;
-            $insertItem->timestamps = false; 
             //商品画像 投稿処理
             if(isset($request->image)){
                 $filename = $request->file('image')->getClientOriginalName();
@@ -39,13 +39,12 @@ class ShopController extends Controller
             }
             $insertItem->fill($itemInsertData)->save();
             //表示機能
-            $itemdata = item::paginate(8);
+            $itemdata = item::latest('update_at')->paginate(8);
         //商品更新処理
         }else if(isset($request->item_update_flg)){
             $itemUpdateData = $request->all();
             unset($itemUpdateData['_token']);
             $updateItem = item::find($request->id);
-            $updateItem->timestamps = false; 
             //商品画像 更新処理
             if(isset($request->image)){
                 Storage::delete('public/image', $updateItem->image);
@@ -54,31 +53,34 @@ class ShopController extends Controller
             }
             $updateItem->fill($itemUpdateData)->save();
             //表示機能
-            $itemdata = item::paginate(8);
-            return view('shop.index',compact('itemdata','paginateArray'));
+            $itemdata = item::latest('update_at')->paginate(8);
         //商品削除処理
         }else if(isset($request->item_delete_flg)){
             $deleteId = item::find($request->id);
             Storage::delete('public/image', $deleteId->image);
             $deleteId = item::find($request->id)->delete();
             //表示機能
-            $itemdata = item::paginate(8);
+            $itemdata = item::latest('update_at')->paginate(8);
         //新規ユーザー登録処理
         }else if(isset($request->user_create_flg)){
             //ユーザー登録処理
-            $user_new_data = $request->all();
-            unset($user_new_data['_token']);
-            $user_insert = new user;
-            $user_insert->fill($user_new_data)->save();
+            $userNewData = $request->all();
+            unset($userNewData['_token']);
+            $userInsert = new users;
+            $userInsert->fill($userNewData)->save();
             //表示機能
-            $itemdata = item::paginate(8);
-
+            $itemdata = item::latest('update_at')->paginate(8);
+        //ユーザー情報更新処理
+        }else if(isset($request->user_update_flg)){
+            $userUpdateData = $request->all();
+            unset($userUpdateData['_token']);
+            $updateuser = users::find($request->id);
+            $updateuser->fill($userUpdateData)->save();
             //表示機能
-            $itemdata = item::paginate(8);
-            return view('shop.index',compact('itemdata','paginateArray'));
+            $itemdata = item::latest('update_at')->paginate(8);
         }else{
             //表示機能
-            $itemdata = item::paginate(8);
+            $itemdata = item::latest('update_at')->paginate(8);
         }
         return view('shop.index',compact('itemdata','paginateArray'));
     }

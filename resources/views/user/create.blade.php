@@ -30,12 +30,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="reg_password" class="sr-only">ログインパスワード</label>
-                                <input type="password" class="form-control" id="reg_password" name="reg_password" placeholder="パスワードを入力してください">
+                                <label for="password" class="sr-only">ログインパスワード</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="パスワードを入力してください">
                             </div>
                             <div class="form-group">
-                                <label for="reg_password_confirm" class="sr-only">ログインパスワード（確認用）</label>
-                                <input type="password" class="form-control" id="reg_password_confirm" name="reg_password_confirm" placeholder="パスワードを入力してください（確認用）">
+                                <label for="password_confirm" class="sr-only">ログインパスワード（確認用）</label>
+                                <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="パスワードを入力してください（確認用）">
                             </div>
                             
                             <div class="form-group">
@@ -43,8 +43,8 @@
                                 <input type="text" class="form-control" id="user_name" name="user_name" placeholder="お名前を入力してください">
                             </div>
                             <div class="form-group">
-                                <label for="reg_email" class="sr-only">メールアドレス</label>
-                                <input type="text" class="form-control" id="reg_email" name="reg_email" placeholder="メールアドレスを入力してください">
+                                <label for="email" class="sr-only">メールアドレス</label>
+                                <input type="text" class="form-control" id="email" name="email" placeholder="メールアドレスを入力してください">
                             </div>
                             @if(isset($user_authority))
                                 <div class="form-group">

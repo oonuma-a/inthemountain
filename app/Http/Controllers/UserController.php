@@ -1,28 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\users;
 
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function user_index_get(Request $request){
-        //商品情報表示画面
-        if(isset($request->user_check_flg)){
-            $user_select = user::find($request->id);
-            return view('user.index', compact('user_select'));
-        }
-        return view('user.index');
-
+        //表示機能
+        $userSelect = users::latest('update_at')->paginate(8);
+        return view('user.index',compact('userSelect'));
+        
     }
     public function user_index_post(Request $request){
-        //商品情報表示画面
-        if(isset($request->user_check_flg)){
-            $user_select = user::find($request->id);
-            return view('user.index', compact('user_select'));
+        //削除処理user_delete_flg
+        if(isset($request->user_delete_flg)){
+            $deleteId = users::find($request->id)->delete();
         }
-        return view('user.index');
-
+        //表示機能
+        $userSelect = users::latest('update_at')->paginate(8);
+        return view('user.index',compact('userSelect'));
     }
     public function user_create_get(){
         return view('user.create');
@@ -30,10 +28,15 @@ class UserController extends Controller
     public function user_create_post(){
         return view('user.create');
     }
-    public function user_edit_get(){
-        return view('user.index');
+    public function user_edit_get(Request $request){
+        //ユーザー情報更新画面
+        if(isset($request->user_update_flg)){
+            $userUpdate = users::find($request->id);
+            return view('user.edit', compact('userUpdate'));
+        }
+        return view('user.edit');
     }
     public function user_edit_post(){
-        return view('user.index');
+        return view('user.edit');
     }
 }
