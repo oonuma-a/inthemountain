@@ -20,6 +20,7 @@ class CreateItem extends Migration
             $table->integer('item_number',false,false)->unsigned();
             $table->string('item_category',10);
             $table->text('item_text',1000);
+            $table->integer('star',false,false)->default(null)->nullable();
             $table->text('image')->default(null)->nullable();
             $table->integer('price',false,false)->unsigned();
             $table->integer('discount_price',false,false)->unsigned()->default(null)->nullable();

@@ -34,6 +34,7 @@ Route::prefix('include')->group(function(){
 Route::prefix('shop')->group(function(){
     Route::get('/index',  [ShopController::class, 'shop_index_get'])->name('shop.index');
     Route::post('/index',  [ShopController::class, 'shop_index_post']);
+    Route::get('/detail',  [ShopController::class, 'shop_detail_get'])->name('shop.detail');
     Route::get('/create',  [ShopController::class, 'shop_create_get'])->name('shop.create');
     Route::post('/create',  [ShopController::class, 'shop_create_post']);
     Route::get('/edit',  [ShopController::class, 'shop_edit_get'])->name('shop.edit');

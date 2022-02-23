@@ -7,7 +7,7 @@
  <!-- Product section-->
     <section class="py-5">
         <div class="container px-4 px-lg-5 my-5">
-            <form action="{{route('shop.index')}}" method="post" name="editform" enctype="multipart/form-data">
+            <form action="{{route('shop.index')}}" method="post" name="editform_{{$updateItem->id}}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="item_update_flg" value="1">
                 <input type="hidden" name="id" value="{{$updateItem->id}}">
@@ -41,14 +41,33 @@
                             <option value="登山グッズ">登山グッズ</option>
                         </select></p>
                         <p>商品価格：<input class="small mb-1" type="text" name="price" value="{{$updateItem->price}}">円</p>
-                        <p>値引き価格：<input class="small mb-1" type="text" name="discount_price" value="{{$updateItem->discount_price}}">円</p>
+                        <p>値引き後価格：<input class="small mb-1" type="text" name="discount_price" value="{{$updateItem->discount_price}}">円</p>
+                        <p>おすすめ度：<select name="star">
+                                @for($i=1; $i <= 5; $i++)
+                                    @if($i == $updateItem->star)
+                                        <option value="{{$i}}" selected>
+                                            @for($j=0; $j < $i; $j++)
+                                                ★ 
+                                            @endfor
+                                        </option>
+                                    @else
+                                        <option value="{{$i}}">
+                                            @for($j=0; $j < $i; $j++)
+                                                ★
+                                            @endfor
+                                        </option>
+                                    @endif
+                                @endfor
+                            </option>
+                            <!-- <option value="1">★</option> -->
+                            </select>
                         <p>商品の説明文：</p>
                         <p class="lead"><textarea name="item_text" id="item_text" cols="30" rows="10">{{$updateItem->item_text}}</textarea>
                         <p>数量：<input class="small mb-1" type="text" name="item_number" value="{{$updateItem->item_number}}">個</p>
                     </div>
                 </div>
                 <div class="d-flex">
-                    <a class="btn btn-outline-dark flex-shrink-0" href="javascript:editform.submit()">
+                    <a class="btn btn-outline-dark flex-shrink-0" href="javascript:editform_{{$updateItem->id}}.submit()">
                         商品を更新
                     </a>
                 </div>

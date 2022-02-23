@@ -38,6 +38,8 @@
                         <input type="text" name="price" value="1"><br>
                         discount_price<br>
                         <input type="text" name="discount_price" value="1"><br>
+                        star<br>
+                        <input type="text" name="star" value="1"><br>
                         数量
                         <input type="text" name="item_number" value="100"><br>
                         <a href="javascript:itemForm.submit()">商品登録</a>
