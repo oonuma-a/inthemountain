@@ -16,12 +16,15 @@
 					</ul>
 				</li>
 			</ul>
-			<form class="d-flex" method="get" action="{{route('user.edit')}}" name="editform">
-				@csrf
-				<input type="hidden" name="user_update_flg" value="1">
-				<input type="hidden" name="id" value="1">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-					<li class="nav-item"><a class="nav-link active" aria-current="page" href="javascript:editform.submit()">update<br>登録情報変更</a></li>
+					<li class="nav-item">
+						<form class="d-flex" method="get" action="{{route('user.edit')}}" name="editform">
+							@csrf
+							<input type="hidden" name="user_update_flg" value="1">
+							<input type="hidden" name="id" value="1">
+							<a class="nav-link active" aria-current="page" href="javascript:editform.submit()">update<br>登録情報変更</a>		
+						</form>
+					</li>	
 					<li class="nav-item"><a class="nav-link active" aria-current="page" href="{{route('user.create')}}">register<br>新規登録</a></li>
 					<li class="nav-item"><a class="nav-link" href="{{route('auth.index')}}">Login<br>ログイン</a></li>
 
@@ -34,15 +37,15 @@
 							<li><a class="dropdown-item" href="{{route('item.create')}}">商品追加</a></li>
 						</ul>
 					</li>
-				</ul>
-			</form>
-			<form class="d-flex">
+			</ul>
+			<form class="d-flex" action="{{route('shop.cart')}}" method="get" name="cartform">
 				@csrf
-				<button class="btn btn-outline-dark" type="submit">
+				<input type="hidden" name="cart_add" value="1">
+				<a href="javascript:cartform.submit()" class="btn btn-outline-dark" type="submit">
 					<i class="bi-cart-fill me-1"></i>
 					Cart
-					<span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-				</button>
+					<span class="badge bg-dark text-white ms-1 rounded-pill">5</span>
+				</a>
 			</form>
 		</div>
 	</div>

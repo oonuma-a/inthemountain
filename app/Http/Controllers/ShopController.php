@@ -14,96 +14,85 @@ class ShopController extends Controller
 {
     public function shop_index_get(Request $request){
         //ページネーション値配列
-        $paginateArray = array(20,50,100);
-        //ページネーション
-        if(isset($request->item_pagination)){
-            $itemdata = item::latest('update_at')->paginate($request->item_pagination);
-            $paginateChangeValue = $request->item_pagination;
-            return view('shop.index',compact('itemdata','paginateChangeValue','paginateArray'));
-        }
-        //詳細表示機能
-        if(isset($request->detail_select)){
-            if($request->detail_select == 2){
-                $itemdata = item::latest('update_at')->paginate(20);
-                return view('shop.index',compact('itemdata','paginateArray'));
-            }
-        }
-        //表示機能
-        $itemdata = item::latest('update_at')->paginate(20);
-        return view('shop.index',compact('itemdata','paginateArray'));
-    }
-    public function shop_index_post(Request $request){
-        $paginateArray = array(10,20,60,100);
-        //商品投稿処理
-        if(isset($request->item_insert_flg)){
-            $itemInsertData = $request->all();
-            unset($itemInsertData['_token']);
-            $insertItem = new item;
-            //商品画像 投稿処理
-            if(isset($request->image)){
-                $filename = $request->file('image')->getClientOriginalName();
-                $itemInsertData['image']=$request->file('image')->store('public/image');
-            }
-            $insertItem->fill($itemInsertData)->save();
-            //表示機能
-            $itemdata = item::latest('update_at')->paginate(20);
-        //商品更新処理
-        }else if(isset($request->item_update_flg)){
-            $itemUpdateData = $request->all();
-            unset($itemUpdateData['_token']);
-            $updateItem = item::find($request->id);
-            //商品画像 更新処理
-            if(isset($request->image)){
-                Storage::delete('public/image', $updateItem->image);
-                $filename = $request->file('image')->getClientOriginalName();
-                $itemUpdateData['image']=$request->file('image')->store('public/image');
-            }
-            $updateItem->fill($itemUpdateData)->save();
-            //表示機能
-            $itemdata = item::latest('update_at')->paginate(20);
-        //商品削除処理
-        }else if(isset($request->item_delete_flg)){
-            $deleteId = item::find($request->id);
-            Storage::delete('public/image', $deleteId->image);
-            $deleteId = item::find($request->id)->delete();
-            //表示機能
-            $itemdata = item::latest('update_at')->paginate(20);
-        //新規ユーザー登録処理
-        }else if(isset($request->user_create_flg)){
-            //ユーザー登録処理
-            $userNewData = $request->all();
-            unset($userNewData['_token']);
-            $userInsert = new users;
-            $userNewData['password'] = Hash::make($request->password);
-            $userInsert->fill($userNewData)->save();
-            //表示機能
-            $itemdata = item::latest('update_at')->paginate(20);
-        //ユーザー情報更新処理
-        }else if(isset($request->user_update_flg)){
-            $userUpdateData = $request->all();
-            unset($userUpdateData['_token']);
-            $updateuser = users::find($request->id);
-            $updateuser->fill($userUpdateData)->save();
-            //表示機能
-            $itemdata = item::latest('update_at')->paginate(20);
+        $paginateArray = array(10,20,40,100);
+        //ページネーション受信時の場合は値を変更
+        if(isset($request->paginateChangeValue)){
+            $paginateChangeValue = $request->paginateChangeValue;
         }else{
-            //表示機能
-            $itemdata = item::latest('update_at')->paginate(20);
+            $paginateChangeValue = 20;
         }
-        return view('shop.index',compact('itemdata','paginateArray'));
+        //商品検索時は条件付きの商品表示へ変更
+        if(isset($request->item_search_flg)){
+            $item_search_flg = 1;
+            $itemdata = item::query();
+            $searchItemName = $request->searchItemName;
+            if(isset($searchItemName)){
+                $itemdata->where('item_name','like','%'.$searchItemName.'%')->latest('update_at');
+            }
+        }else{
+            $itemdata = item::latest('update_at');
+            $searchItemName = NULL;
+            $item_search_flg = NULL;
+        }
+        $itemdata = $itemdata->paginate($paginateChangeValue);
+        //詳細表示機能を変更した場合
+        if(isset($request->detail_select)){
+            if($request->detail_select == 1){
+                return view('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+            }else{
+                return view('shop.detail', compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+            }
+        }
+        return view('shop.index' , compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
     }
+
+    public function shop_index_post(Request $request){
+        $paginateArray = array(10,20,40,100);
+        $paginateChangeValue = 20;
+        //表示機能
+        $itemdata = item::latest('update_at')->paginate($paginateChangeValue);
+        return redirect()->route('shop.index',compact('itemdata','paginateArray','paginateChangeValue'));
+    }
+
     public function shop_detail_get(Request $request){
         //ページネーション値配列
-        $paginateArray = array(10,20,60,100);
-        //ページネーション
-        if(isset($request->item_pagination)){
-            $itemdata = item::latest('update_at')->paginate($request->item_pagination);
-            $paginateChangeValue = $request->item_pagination;
-            return view('shop.detail',compact('itemdata','paginateChangeValue','paginateArray'));
+        $paginateArray = array(10,20,40,100);
+        //ページネーション受信時の場合は値を変更
+        if(isset($request->paginateChangeValue)){
+            $paginateChangeValue = $request->paginateChangeValue;
+        }else{
+            $paginateChangeValue = 20;
         }
-        //表示機能
-        $itemdata = item::latest('update_at')->paginate(20);
-        return view('shop.detail',compact('itemdata','paginateArray'));
+        //商品検索時は条件付きの商品表示へ変更
+        if(isset($request->item_search_flg)){
+            $item_search_flg = 1;
+            $itemdata = item::query();
+            $searchItemName = $request->searchItemName;
+            if(isset($searchItemName)){
+                $itemdata->where('item_name','like','%'.$searchItemName.'%')->latest('update_at');
+            }
+        }else{
+            $itemdata = item::latest('update_at');
+            $searchItemName = NULL;
+            $item_search_flg = NULL;
+        }
+        $itemdata = $itemdata->paginate($paginateChangeValue);
+        //詳細表示機能を変更した場合
+        if(isset($request->detail_select)){
+            if($request->detail_select == 1){
+                return view('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+            }else{
+                return view('shop.detail', compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+            }
+        }
+        return view('shop.detail' , compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+    }
+    public function shop_cart_get(Request $request){     
+        //カート機能
+        if(isset($request->cart_add)){
+            Cart::add('293ad', 'Product 1', 1, 9.99, ['size' => 'large']);
+        }
+        return view('shop.detail' , compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
     }
     public function shop_create_get(){
         return view('shop.index');

@@ -9,15 +9,19 @@
         <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
                 <div class="col-md-6">
-                    <img class="card-img-top mb-5 mb-md-0" src="{{ Storage::url($selectItem->image)}}"  alt="商品の画像" />
+                    @if(is_null($selectItem->image))
+                         <img class="card-img-top mb-5 mb-md-0" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
+                    @else
+                         <img class="card-img-top mb-5 mb-md-0" src="{{ Storage::url($selectItem->image)}}" alt="商品の画像">
+                    @endif
                 </div>
                 <div class="col-md-6">
                     <div class="small mb-1">{{$selectItem->item_category}}</div>
                     <h1 class="display-5 fw-bolder">{{$selectItem->item_name}}</h1>
                     <div class="fs-5 mb-5">
                         @if(isset($selectItem->discount_price))
-                            <span class="text-decoration-line-through">¥{{$selectItem->discount_price}}</span>
-                            <span>¥{{$selectItem->discount_price}}</span>
+                            <span class="text-decoration-line-through">¥{{$selectItem->price}}</span>
+                            <span class="price-discount">¥{{$selectItem->discount_price}}</span>
                         @else
                             <span>¥{{$selectItem->discount_price}}</span>
                         @endif

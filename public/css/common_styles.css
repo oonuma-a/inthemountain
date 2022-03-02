@@ -640,7 +640,18 @@ progress {
   margin-left: auto;
 }
 
-
+.required-form{
+  color: #e33;
+  border: 1px solid #e33;
+  padding:0px 3px;
+  margin-left: 10px;
+  border-radius: 3px;
+  line-height: 10px;
+}
+.error-message-list{
+  list-style: circle;
+  color: #e33;
+}
 
 @media (min-width: 576px) {
   .container-sm, .container {
