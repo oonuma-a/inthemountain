@@ -30,16 +30,16 @@
                             </ul>
                             <div class="login-group">
                                 <div class="form-group">
-                                    <label for="user_id" class="sr-only">ログインID</label><span class="required-form">必須</span>
-                                    <input type="text" class="form-control" id="user_id" name="user_id" placeholder="ログインIDを入力してください">
+                                    <label for="user_id" class="sr-only">ユーザーID</label><span class="required-form">必須</span>
+                                    <input type="text" class="form-control" id="user_id" name="user_id" placeholder="ユーザーIDを入力してください">
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="sr-only">ログインパスワード</label><span class="required-form">必須</span>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="パスワードを入力してください">
                                 </div>
                                 <div class="form-group">
-                                    <label for="password_confirm" class="sr-only">ログインパスワード（確認用）</label><span class="required-form">必須</span>
-                                    <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="パスワードを入力してください（確認用）">
+                                    <label for="password_confirmation" class="sr-only">ログインパスワード（確認用）</label><span class="required-form">必須</span>
+                                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="パスワードを入力してください（確認用）">
                                 </div>
                                 
                                 <div class="form-group">
@@ -50,12 +50,12 @@
                                     <label for="email" class="sr-only">メールアドレス</label><span class="required-form">必須</span>
                                     <input type="text" class="form-control" id="email" name="email" placeholder="メールアドレスを入力してください">
                                 </div>
-                                @if(isset($user_authority))
+                                @if(Auth::user()->user_authority == 1)
                                     <div class="form-group">
                                         <label for="user_authority" class="sr-only">権限（管理者用）</label><br>
                                         <select name="user_authority" id="user_authority">
-                                            <option value="0" class="form-control" >一般</option>
                                             <option value="1" class="form-control" >管理者</option>
+                                            <option value="0" class="form-control" >一般</option>
                                         </select>
                                     </div>    
                                 @else

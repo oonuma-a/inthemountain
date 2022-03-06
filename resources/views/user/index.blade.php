@@ -51,7 +51,11 @@
                           {{$data->email}}
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        {{$data->user_authority}}
+                        @if($data->user_authority == 1)
+                          <p class="px-4 py-3 text-sm">管理者</p>
+                        @else
+                          <p class="px-4 py-3 text-sm">一般</p>
+                        @endif
                       </td>
                       <td class="px-4 py-3 text-sm">
                         {{$data->update_at}}

@@ -8,6 +8,7 @@ use App\Models\users;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 class ShopController extends Controller
@@ -48,10 +49,11 @@ class ShopController extends Controller
 
     public function shop_index_post(Request $request){
         $paginateArray = array(10,20,40,100);
-        $paginateChangeValue = 20;
+        $searchItemName = NULL;
+        $item_search_flg = NULL;
         //表示機能
-        $itemdata = item::latest('update_at')->paginate($paginateChangeValue);
-        return redirect()->route('shop.index',compact('itemdata','paginateArray','paginateChangeValue'));
+        $itemdata = item::latest('update_at')->paginate(20);
+        return redirect()->route('shop.index',compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
     }
 
     public function shop_detail_get(Request $request){
@@ -87,13 +89,7 @@ class ShopController extends Controller
         }
         return view('shop.detail' , compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
     }
-    public function shop_cart_get(Request $request){     
-        //カート機能
-        if(isset($request->cart_add)){
-            Cart::add('293ad', 'Product 1', 1, 9.99, ['size' => 'large']);
-        }
-        return view('shop.detail' , compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
-    }
+    
     public function shop_create_get(){
         return view('shop.index');
     }

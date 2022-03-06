@@ -21,14 +21,17 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return redirect('shop/index');
 });
+
 Route::prefix('auth')->group(function(){
     Route::get('/index',  [AuthController::class, 'auth_index_get'])->name('auth.index');
+    Route::post('/index',  [AuthController::class, 'auth_index_post']);
 });
+
 Route::prefix('include')->group(function(){
-    Route::match(['get','post'],'/head', [IncludeController::class, 'head'])->name('include.head');
-    Route::match(['get','post'],'/sidebar',  [IncludeController::class, 'sidebar'])->name('include.sidebar');
-    Route::match(['get','post'],'/navigation', [IncludeController::class, 'navigation'])->name('include.navigation');
-    Route::match(['get','post'],'/footer', [IncludeController::class, 'footer'])->name('include.footer');
+    Route::get('/head', [IncludeController::class, 'head'])->name('include.head');
+    Route::get('/sidebar',  [IncludeController::class, 'sidebar'])->name('include.sidebar');
+    Route::get('/navigation', [IncludeController::class, 'navigation'])->name('include.navigation');
+    Route::get('/footer', [IncludeController::class, 'footer'])->name('include.footer');
 });
 
 Route::prefix('shop')->group(function(){
@@ -45,6 +48,8 @@ Route::prefix('shop')->group(function(){
 Route::prefix('item')->group(function(){
     Route::get('/index',  [itemController::class, 'item_index_get'])->name('item.index');
     Route::post('/index',  [itemController::class, 'item_index_post']);
+    Route::get('/view',  [itemController::class, 'item_view_get'])->name('item.view');
+    Route::post('/view',  [itemController::class, 'item_view_post']);
     Route::get('/create',  [itemController::class, 'item_create_get'])->name('item.create');
     Route::post('/create',  [itemController::class, 'item_create_post']);
     Route::get('/edit',  [itemController::class, 'item_edit_get'])->name('item.edit');
@@ -58,3 +63,11 @@ Route::prefix('user')->group(function(){
     Route::get('/edit',  [UserController::class, 'user_edit_get'])->name('user.edit');
     Route::post('/edit',  [UserController::class, 'user_edit_post']);
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

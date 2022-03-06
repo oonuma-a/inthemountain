@@ -20,18 +20,28 @@
             </div>
             <!-- Main Form -->
             <div class="login-form-1">
-                <form id="login-form" class="text-left" name="login-form">
+                <form action ="{{route('auth.index')}}" method="post" id="login-form" class="text-left" name="loginform">
+                    @csrf
+                    <input type="hidden" name="login_flg" value="1">
                     <div class="login-form-main-message">
                     </div>
+                    @if (session('error')) 
+                        <div class="">{{ session('error') }}</div>
+                    @endif
+                    @if(!count($errors) == 0)
+                        @foreach($errors as $error)
+                            {{$error}}
+                        @endforeach
+                    @endif
                     <div class="main-login-form">
                         <div class="login-group">
                             <div class="form-group">
-                                <label for="lg_username" class="sr-only">ユーザー名</label>
-                                <input type="text" class="form-control" id="lg_username" name="lg_username" placeholder="ここに入力してください。">
+                                <label for="user_id" class="sr-only">ユーザーID</label>
+                                <input type="text" class="form-control" id="user_id" name="user_id" placeholder="ここに入力してください。">
                             </div>
                             <div class="form-group">
-                                <label for="lg_password" class="sr-only">パスワード</label>
-                                <input type="password" class="form-control" id="lg_password" name="lg_password" placeholder="ここに入力してください。">
+                                <label for="password" class="sr-only">パスワード</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="ここに入力してください。">
                             </div>
                             <div class="form-group login-group-checkbox">
                                 <input type="checkbox" id="lg_remember" name="lg_remember">
@@ -39,7 +49,7 @@
                             </div>
                         </div>
                         <div  class="login-btn">
-                            <a href="javascript:login-form.submit()">ログインする</a>
+                            <a href="javascript:loginform.submit()">ログインする</a>
                         </div>
                     </div>
                 </form>

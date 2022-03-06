@@ -92,12 +92,12 @@
                     @foreach($itemdata as $data)
                         <div class="col mb-5">
                             <div class="card h-100">
-                                <form action="{{route('item.index')}}" method="get" name="itemForm_{{$loop->index}}">
+                                <form action="{{route('item.view')}}" method="get" name="itemForm_{{$loop->index}}">
                                     @csrf
                                     <input type="hidden" name="id" value="{{$data->id}}">
                                     <!-- Sale badge-->
                                     @if(isset($data->discount_price))
-                                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                                     @endif
                                     <!-- Product image-->
                                     <div class="item-img">
@@ -168,7 +168,7 @@
         
         <!-- ページネーション -->
         <div class="d-flex justify-content-center small text-warning mb-2">
-            @if(isset($search_flg_return))
+            @if(isset($item_search_flg) or isset($paginateChangeValue))
                 {{$itemdata->appends(request()->input())->links()}}
             @else
                 {{$itemdata->links() }}
