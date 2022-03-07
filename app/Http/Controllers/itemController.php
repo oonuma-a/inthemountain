@@ -117,4 +117,69 @@ class itemController extends Controller
         }
         return redirect()->route('shop.index', compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
     }
+    public function item_cart_get(Request $request){
+        //カート表示機能
+        $cartData = $request->session()->get('cart_data');
+        if(isset($cartData)){
+            $cart_id = array_column($cartData, 'cart_id');
+            $itemData = item::find($cart_id);
+        }else{
+            $itemData = NULL;
+        }
+        
+        //商品個数集計処理
+        if(isset($itemData)){
+            $itemQuantity = [];
+            foreach($itemData as $data){
+                $Quantity = 0;
+                foreach($cartData as $cart){
+                    if($data->id == $cart['cart_id']){
+                        $Quantity = $Quantity + (int)$cart['cart_item_number'];
+                    }
+                }
+                $itemQuantity = array_merge($itemQuantity,['id_'.$data->id => $Quantity]);
+            }
+        }else{
+            $itemQuantity = NULL;
+        }
+        return view('item.cart', compact('itemData','itemQuantity'));
+    }
+
+    public function item_cart_post(Request $request){
+        //カート追加機能
+        $cart_id = $request->id;
+        $cart_item_number = $request->item_number;
+        $cartData = compact('cart_id','cart_item_number');
+        $request->session()->push('cart_data', $cartData);
+        
+        //カートを空にする
+        if(isset($request->cart_drop_flg)){
+            $request->session()->flush();
+        }
+        //カート表示機能
+        $cartData = $request->session()->get('cart_data');
+        if(isset($cartData)){
+            $cart_id = array_column($cartData, 'cart_id');
+            $itemData = item::find($cart_id);
+        }else{
+            $itemData = NULL;
+        }
+        
+        //商品個数集計処理
+        if(isset($itemData)){
+            $itemQuantity = [];
+            foreach($itemData as $data){
+                $Quantity = 0;
+                foreach($cartData as $cart){
+                    if($data->id == $cart['cart_id']){
+                        $Quantity = $Quantity + (int)$cart['cart_item_number'];
+                    }
+                }
+                $itemQuantity = array_merge($itemQuantity,['id_'.$data->id => $Quantity]);
+            }
+        }else{
+            $itemQuantity = NULL;
+        }
+        return redirect()->route('item.cart', compact('itemData','itemQuantity'));
+    }
 }

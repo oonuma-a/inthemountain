@@ -94,23 +94,22 @@
                                 @endif
                             <!-- <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div> -->
 
-                            <form action="{{route('item.index')}}" method="get" name="itemImdForm_{{$loop->index}}">
-                                @csrf
-                                <input type="hidden" name="id" value="{{$data->id}}">
-                                <input type="hidden" name="item_check_flg" value="1">
                                 <!-- Product image-->
                                 <div class="detail-left-column">
-                                    @if(is_null($data->image))
-                                        <a href="javascript:itemImdForm_{{$loop->index}}.submit()">
-                                            <img class="detail-card-img-top" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
-                                        </a>
-                                    @else
-                                        <a href="javascript:itemImdForm_{{$loop->index}}.submit()">
-                                            <img class="detail-card-img-top" src="{{ Storage::url($data->image)}}" alt="商品の画像">
-                                        </a>
-                                    @endif
-
-                                    
+                                    <form action="{{route('item.view')}}" method="get" name="itemImgForm_{{$loop->index}}">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{$data->id}}">
+                                        <input type="hidden" name="item_check_flg" value="1">
+                                        @if(is_null($data->image))
+                                            <a href="javascript:itemImgForm_{{$loop->index}}.submit()">
+                                                <img class="detail-card-img-top" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
+                                            </a>
+                                        @else
+                                            <a href="javascript:itemImgForm_{{$loop->index}}.submit()">
+                                                <img class="detail-card-img-top" src="{{ Storage::url($data->image)}}" alt="商品の画像">
+                                            </a>
+                                        @endif
+                                    </form>
                                     <!-- Product reviews-->
                                     <div class="d-flex justify-content-center small text-warning mb-2 item-star">
                                         @if(isset($data->star))
@@ -121,11 +120,10 @@
                                         @endif
                                     </div>
                                 </div>
-                            </form>
                             <div class="detail-right-column">
                                 <div class="detail-right-top">
                                     <!-- Product name-->
-                                    <form action="{{route('item.index')}}" method="get" name="itemnameForm_{{$loop->index}}">
+                                    <form action="{{route('item.view')}}" method="get" name="itemnameForm_{{$loop->index}}">
                                         @csrf
                                         <input type="hidden" name="id" value="{{$data->id}}">
                                         <a href="javascript:itemnameForm_{{$loop->index}}.submit()">
@@ -136,12 +134,12 @@
                                     <p class="detail-text">{{$data->item_text}}</p>
                                     <!-- Product price-->
                                     <p>
-                                        @if(isset($data->discount_price))
-                                            <span class="detail-text-muted text-decoration-line-through">¥{{$data->discount_price}}</span>
-                                            <span class="detail-price price-discount">¥{{$data->price}}</span>
-                                        @else
-                                            <span class="detail-price">¥{{$data->price}}</span>
-                                        @endif
+                                    @if(isset($data->discount_price))
+                                        <p><span class="detail-text-muted text-decoration-line-through">¥{{$data->price}}</span>
+                                        <span class="detail-price price-discount ">¥{{$data->discount_price}}</span></p>
+                                    @else
+                                        <span class="detail-price">¥{{$data->price}}</span>
+                                    @endif
                                     </p>
                                 </div>
                                 <!-- Product Update & delete-->

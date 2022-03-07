@@ -54,6 +54,8 @@ Route::prefix('item')->group(function(){
     Route::post('/create',  [itemController::class, 'item_create_post']);
     Route::get('/edit',  [itemController::class, 'item_edit_get'])->name('item.edit');
     Route::post('/edit',  [itemController::class, 'item_edit_post']);
+    Route::get('/cart',  [itemController::class, 'item_cart_get']);
+    Route::post('/cart',  [itemController::class, 'item_cart_post'])->name('item.cart');
 });
 Route::prefix('user')->group(function(){
     Route::get('/index',  [UserController::class, 'user_index_get'])->name('user.index');
