@@ -4,13 +4,36 @@
     <script src="{{asset('/js/homepage_scripts.js')}}"></script>
 @endsection
 @section('content')
-    <section class="">
         <!-- 商品一覧 -->
         @if(is_null($itemData))
-            <tr>
-                <p>商品がありません。</p>
-            </tr>
+            <div class="detail-row">
+                <tr>
+                    <p>商品がありません。</p>
+                </tr>
+            </div>
         @else
+            <div class="detail-row">
+                <div class="cart-total-price">
+                    <p class="detail-price detail-text-muted">合計：
+                    <?php
+                        $price = 0;
+                        foreach($itemData as $data){
+                            if(isset($data->discount_price)){
+                                $price = $price + $itemQuantity['id_'.$data->id] * $data->discount_price;
+                            }else{
+                                $price = $price + $itemQuantity['id_'.$data->id] * $data->price;
+                            }
+                        }
+                        echo $price;
+                    ?>円</p>
+                    
+                    <form action="{{route('item.cart')}}" method="post" name="cartbuy">
+                        @csrf
+                        <input type="hidden" name="cart_buy_flg" value="1">
+                        <a class="btn btn-outline-orange mt-auto" href="javascript:cartbuy.submit()">購入画面へ進む</a>
+                    </form>
+                </div>
+            </div>
             @foreach($itemData as $data)
                 <div class="detail-row">
                     <div class="detail-row-child">
@@ -59,34 +82,38 @@
                                 <!-- Product price-->
                                 
                                 @if(isset($data->discount_price))
-                                    <p><span class="detail-text-muted text-decoration-line-through">¥{{$data->price}}</span>
-                                    <span class="detail-price price-discount ">¥{{$data->discount_price}}</span></p>
+                                    <p><span class="detail-text-muted text-decoration-line-through">{{$data->price}}円</span>
+                                    <span class="detail-price price-discount ">{{$data->discount_price}}円</span></p>
                                 @else
-                                    <span class="detail-price">¥{{$data->price}}</span>
+                                    <span class="detail-price detail-text-muted">{{$data->price}}円</span>
                                 @endif
                                 <p>数量：{{ $itemQuantity['id_'.$data->id]}}個</p>
                                 <p>
                                     @if(isset($data->discount_price))
-                                       合計：<span class="detail-text-muted">¥{{$itemQuantity['id_'.$data->id] * $data->discount_price}}</span>
+                                       合計：<span class="detail-text-muted text-decoration-line-through">{{$itemQuantity['id_'.$data->id] * $data->price}}円</span>&nbsp;
+                                       <span class="detail-price price-discount ">{{$itemQuantity['id_'.$data->id] * $data->discount_price}}円</span>
                                     @else
-                                       合計：<span class="detail-price">¥{{$itemQuantity['id_'.$data->id] * $data->price}}</span>
+                                       合計：<span class="detail-price detail-text-muted">{{$itemQuantity['id_'.$data->id] * $data->price}}円</span>
                                     @endif
                                 </p>
                             </div>
                             <!-- Product Update & delete-->
                             <div class="detail-right-bottom">
-                                <a class="btn btn-outline-dark mt-auto detail-btn" href="#">カートに追加</a>
-                                <a class="btn btn-outline-dark mt-auto detail-btn" href="javascript:itemDeleteForm_{{$loop->index}}.submit()">カートから削除</a>
-                            </div>
-                        </div>                               
-                        <!-- Product actions Update & delete-->
-                        <div class="">
-                            <form action="{{route('item.index')}}" method="post" name="itemDeleteForm_{{$loop->index}}">
-                                @csrf
-                                <input type="hidden" name="item_delete_flg" value="1">
-                                <input type="hidden" name="id" value="{{$data->id}}">
-                                <input type="hidden" name="detail_flg" value="1">
-                            </form>
+                                <form action="{{route('item.cart')}}" method="post" name="itemCartForm_{{$loop->index}}">
+                                    @csrf
+                                    <input type="hidden" name="cart_add_flg" value="1">
+                                    <input type="hidden" name="id" value="{{$data->id}}">
+                                    <input type="hidden" name="item_number" value="1">
+                                    <a class="btn btn-outline-dark mt-auto detail-btn" href="javascript:itemCartForm_{{$loop->index}}.submit()">カートに追加</a>
+                                </form>
+                                <form action="{{route('item.cart')}}" method="post" name="itemDeleteForm_{{$loop->index}}">
+                                    @csrf
+                                    <input type="hidden" name="cart_delete_flg" value="1">
+                                    <input type="hidden" name="id" value="{{$data->id}}">
+                                    <input type="hidden" name="item_number" value="{{$itemQuantity['id_'.$data->id]}}">
+                                    <a class="btn btn-outline-dark mt-auto detail-btn" href="javascript:itemDeleteForm_{{$loop->index}}.submit()">カートから削除</a>
+                                </form>
+                            </div>                               
                         </div> 
                         <div class="">
                             <form action="{{route('item.edit')}}" method="get" name="itemUpdateForm_{{$loop->index}}">
@@ -98,11 +125,16 @@
                 </div>
                 <span class="">{{$data->cartItemNumber}}</span>
             @endforeach
+            <div class="detail-row">
+                <div class="detail-row">
+                    <div class="cart-btn">
+                        <form action="{{route('item.cart')}}" method="post" name="cartdrop">
+                            @csrf
+                            <input type="hidden" name="cart_drop_flg" value="1">
+                            <a class="btn btn-outline-dark mt-auto" href="javascript:cartdrop.submit()">カートを空にする</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
         @endif
-        <form action="{{route('item.cart')}}" method="post" name="cartdrop">
-            @csrf
-            <input type="hidden" name="cart_drop_flg" value="1">
-            <a class="btn btn-outline-dark mt-auto detail-btn" href="javascript:cartdrop.submit()">カートを空にする</a>
-        </form>
-    </section>
 @endsection

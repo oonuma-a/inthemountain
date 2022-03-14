@@ -10,10 +10,12 @@ class AuthController extends Controller
 {
     public function auth_index_get(Request $request){
         //ページ表示用項目
-        $paginateArray = array(10,20,40,100);
-        $searchItemName = NULL;
-        $item_search_flg = NULL;
+        $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;
+        $item_name_search = NULL;
+        $category_search = NULL;
+        $sale_search = NULL;
+        $detail_select = NULL;
         //表示機能
         $itemdata = item::latest('update_at')->paginate($paginateChangeValue);
         if(Auth::check()){
@@ -26,10 +28,12 @@ class AuthController extends Controller
     
     public function auth_index_post(Request $request){
         //ページ表示用項目
-        $paginateArray = array(10,20,40,100);
-        $searchItemName = NULL;
-        $item_search_flg = NULL;
+        $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;
+        $item_name_search = NULL;
+        $category_search = NULL;
+        $sale_search = NULL;
+        $detail_select = NULL;
 
         //表示機能
         $itemdata = item::latest('update_at')->paginate($paginateChangeValue);
@@ -37,11 +41,11 @@ class AuthController extends Controller
         //ログアウト処理
         if(isset($request->logout_flg)){
             Auth::logout();
-            return redirect()->route('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+            return redirect()->route('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
         }
         //ログイン処理
         if(Auth::check()){
-            return redirect()->route('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+            return redirect()->route('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
         }else{
             if(isset($request->login_flg)){
                 $credentials = $request->only(
@@ -50,7 +54,7 @@ class AuthController extends Controller
                 );
                 if(Auth::attempt($credentials)){
                     $request->session()->regenerate();
-                    return redirect()->route('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+                    return redirect()->route('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
                 }
                 return back()->withErrors([
                     'login_error'=>'ユーザーIDとパスワードが一致しません。',

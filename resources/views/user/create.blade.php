@@ -50,17 +50,20 @@
                                     <label for="email" class="sr-only">メールアドレス</label><span class="required-form">必須</span>
                                     <input type="text" class="form-control" id="email" name="email" placeholder="メールアドレスを入力してください">
                                 </div>
-                                @if(Auth::user()->user_authority == 1)
-                                    <div class="form-group">
-                                        <label for="user_authority" class="sr-only">権限（管理者用）</label><br>
-                                        <select name="user_authority" id="user_authority">
-                                            <option value="1" class="form-control" >管理者</option>
-                                            <option value="0" class="form-control" >一般</option>
-                                        </select>
-                                    </div>    
-                                @else
+                                @auth
+                                    @if(Auth::user()->user_authority == 1)
+                                        <div class="form-group">
+                                            <label for="user_authority" class="sr-only">権限（管理者用）</label><br>
+                                            <select name="user_authority" id="user_authority">
+                                                <option value="1" class="form-control" >管理者</option>
+                                                <option value="0" class="form-control" >一般</option>
+                                            </select>
+                                        </div>    
+                                    @endif
+                                @endauth
+                                @guest
                                     <input type="hidden" name="user_authority" id="user_authority" value="0">
-                                @endif
+                                @endguest
                             </div>
                             <div  class="login-btn">
                                 <a href="javascript:registform.submit()">登録する</a> 

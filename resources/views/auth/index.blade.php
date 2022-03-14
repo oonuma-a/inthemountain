@@ -25,9 +25,13 @@
                     <input type="hidden" name="login_flg" value="1">
                     <div class="login-form-main-message">
                     </div>
-                    @if (session('error')) 
-                        <div class="">{{ session('error') }}</div>
-                    @endif
+                    
+                    <ul class="error-message-list">
+                        @if (session('error')) 
+                            <li>{{ session('error') }}</li>
+                        @endif
+                    </ul>
+
                     @if(!count($errors) == 0)
                         @foreach($errors as $error)
                             {{$error}}
@@ -42,10 +46,6 @@
                             <div class="form-group">
                                 <label for="password" class="sr-only">パスワード</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="ここに入力してください。">
-                            </div>
-                            <div class="form-group login-group-checkbox">
-                                <input type="checkbox" id="lg_remember" name="lg_remember">
-                                <label for="lg_remember">ユーザー名とパスワードを保存する</label>
                             </div>
                         </div>
                         <div  class="login-btn">

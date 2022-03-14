@@ -22,7 +22,6 @@ Last change	: 2015/03/27
 html,
 body {
   background: #fff;
-  padding: 0px;
 }
 @media (min-width: 576px) {
   .container-sm, .container {

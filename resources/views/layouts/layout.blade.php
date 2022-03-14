@@ -2,9 +2,11 @@
 <html lang="ja">
     @include('/include/head')
     <body>
-        @include('/include/navigation')
-        @yield('content')
-        @include('/include/footer')
+        <section>
+            @include('/include/navigation')
+            @yield('content')
+            @include('/include/footer')
+        </section>
     </body>
 </html>
 

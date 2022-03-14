@@ -16,10 +16,13 @@ class itemController extends Controller
     }
     public function item_index_post(Request $request){
         //ページ表示用項目
-        $paginateArray = array(10,20,40,100);
+        $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;
-        $searchItemName = NULL;
-        $item_search_flg = NULL;
+        $item_name_search = NULL;
+        $category_search = NULL;
+        $sale_search = NULL;
+        $detail_select = NULL;
+
         
         //商品削除処理
         if(isset($request->item_delete_flg)){
@@ -40,10 +43,10 @@ class itemController extends Controller
         }
         if(isset($request->detail_select)){
             if($request->detail_select == 2){
-                return redirect()->route('shop.detail',  compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+                return redirect()->route('shop.detail',  compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
             }
         }else{
-                return redirect()->route('shop.index', compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+                return redirect()->route('shop.index', compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
         }
     }
     public function item_view_get(Request $request){
@@ -61,10 +64,12 @@ class itemController extends Controller
     }
     public function item_create_post(ItemRequest $request){
         //ページ表示用項目
-        $paginateArray = array(10,20,40,100);
+        $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;
-        $searchItemName = NULL;
-        $item_search_flg = NULL;
+        $item_name_search = NULL;
+        $category_search = NULL;
+        $sale_search = NULL;
+        $detail_select = NULL;
         
         //商品投稿処理
         if(isset($request->item_insert_flg)){
@@ -80,11 +85,12 @@ class itemController extends Controller
         }
         //表示機能
         $itemdata = item::latest('update_at')->paginate($paginateChangeValue);
-        return redirect()->route('shop.index',compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+        return redirect()->route('shop.index',compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
     }
     public function item_edit_get(Request $request){
         //商品更新処理：更新する商品を表示
         $updateItem = item::find($request->id);
+        //遷移時にトップ画面、商品編集画面判定
         if(isset($request->item_index_edit)){
             $item_index_edit = 1;
         }else{
@@ -94,10 +100,13 @@ class itemController extends Controller
     }
     public function item_edit_post(ItemRequest $request){
         //ページ表示用項目
-        $paginateArray = array(10,20,40,100);
+        $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;
-        $searchItemName = NULL;
-        $item_search_flg = NULL;
+        $item_name_search = NULL;
+        $category_search = NULL;
+        $sale_search = NULL;
+        $detail_select = NULL;
+
         //商品更新処理
         $itemUpdateData = $request->all();
         unset($itemUpdateData['_token']);
@@ -115,7 +124,7 @@ class itemController extends Controller
             $selectItem = item::paginate(5);
             return redirect()->route('item.index', compact('selectItem'));
         }
-        return redirect()->route('shop.index', compact('itemdata','paginateArray','paginateChangeValue','searchItemName','item_search_flg'));
+        return redirect()->route('shop.index', compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
     }
     public function item_cart_get(Request $request){
         //カート表示機能
@@ -147,10 +156,34 @@ class itemController extends Controller
 
     public function item_cart_post(Request $request){
         //カート追加機能
-        $cart_id = $request->id;
-        $cart_item_number = $request->item_number;
-        $cartData = compact('cart_id','cart_item_number');
-        $request->session()->push('cart_data', $cartData);
+        if(isset($request->cart_add_flg)){
+            $cart_id = $request->id;
+            $cart_item_number = $request->item_number;
+            $cartData = compact('cart_id','cart_item_number');
+            $request->session()->push('cart_data', $cartData);
+        }
+        //カート削除機能
+        // session()->flush();
+        // dd($request->all());
+        if(isset($request->cart_delete_flg)){
+            //データを取得しセッションクリア
+            $cartData = $request->session()->get('cart_data');
+            $request->session()->flush();
+            //削除データID取得
+            $delete_id = $request->id;
+            foreach($cartData as $data){
+                if($data['cart_id'] == $delete_id){
+                    continue;
+                }else{
+                    $cart_id = $data['cart_id'];
+                    $cart_item_number = $data['cart_item_number'];
+                    $cartData = compact('cart_id','cart_item_number');
+                    $request->session()->push('cart_data', $cartData);
+                }
+            }
+            // dd();
+            // dd(session()->all());
+        }
         
         //カートを空にする
         if(isset($request->cart_drop_flg)){

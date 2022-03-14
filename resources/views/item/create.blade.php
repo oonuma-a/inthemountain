@@ -4,14 +4,13 @@
 @endsection
 @section('content')
  <!-- Product section-->
-    <section class="py-5">
+    <div class="py-5">
         <div class="container px-4 px-lg-5 my-5">
-            
-        <ul class="error-message-list">
-                                @foreach($errors->all() as $error)
-                                    <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
+            <ul class="error-message-list">
+                @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
             <div class="row gx-4 gx-lg-5 align-items-center">
                 <form action="{{route('item.create')}}" method="post" name="itemForm" enctype="multipart/form-data">
                     @csrf
@@ -22,14 +21,12 @@
                     item_category<span class="required-form">必須</span><br>
                     <select name="item_category">
                         <option value="アウター">アウター</option>
-                        <option value="レインウェア">レインウェア</option>
                         <option value="インナー">インナー</option>
-                        <option value="スウェット">スウェット</option>
+                        <option value="レインウェア">レインウェア</option>
                         <option value="パンツ">パンツ</option>
-                        <option value="アンダーウェア">アンダーウェア</option>
                         <option value="ハイキングシューズ">ハイキングシューズ</option>
                         <option value="トレッキングシューズ">トレッキングシューズ</option>
-                        <option value="アルパインブーツ">アルパインブーツ</option>
+                        <option value="ブーツ">ブーツ</option>
                         <option value="スニーカー">スニーカー</option>
                         <option value="バッグ/リュック">バッグ/リュック</option>
                         <option value="帽子/ハット/キャップ">帽子/ハット/キャップ</option>
@@ -65,5 +62,5 @@
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
             <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
         </div>
-    </section>
+    </div>
 @endsection
