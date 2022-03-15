@@ -6,7 +6,7 @@
 @section('content')
     <!-- Header-->
     <header class="bg-dark py-5">
-        <!-- <div class="header-img"></div> -->
+        <div class="header-img"></div>
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white article-word">
                 <h1 class="display-4 fw-bolder">IN THE MOUNTAIN ONLINE SHOP</h1>
@@ -115,7 +115,6 @@
                             @if(isset($data->discount_price))
                             <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                             @endif
-                            <!-- <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div> -->
                             <!-- Product image-->
                             <div class="detail-left-column">
                                 <form action="{{route('item.view')}}" method="get" name="itemImgForm_{{$loop->index}}">

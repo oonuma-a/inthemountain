@@ -386,7 +386,7 @@
 .cart-total-price{
   text-align: right;
 }
-.cart-btn{
+.btn-bottom{
   display: flex;
   justify-content: space-around;
   margin: 40px 0;

@@ -4,6 +4,32 @@
   padding-left: 0;
   list-style: none;
 }
+p{
+  margin:0;
+}
+.item-create-row{
+  width: 300px;
+  margin:auto;
+}
+.item-label{
+  width: 100%;
+  display: flex;
+  height: 30px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.item-create-input{
+  width: 300px;
+}
+.item-create-text{
+  width: 300px;
+  height: 80px;
+}
+.item-create-btn{
+  margin-top: 30px;
+}
 .price-discount{
   color:#e33;
 }

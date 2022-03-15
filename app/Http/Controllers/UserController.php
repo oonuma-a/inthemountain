@@ -5,8 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\users;
 use App\Models\item;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserEditRequest;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -29,7 +28,7 @@ class UserController extends Controller
     public function user_create_get(){
         return view('user.create');
     }
-    public function user_create_post(UserCreateRequest $request){
+    public function user_create_post(UserRequest $request){
         //ページ表示用項目
         $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;
@@ -49,15 +48,15 @@ class UserController extends Controller
             $userInsert->fill($userNewData)->save();
         }
         
-        // //ログイン処理
-        // $credentials = $request->only(
-        //     'user_id' ,
-        //     'password'
-        // );
-        // if(Auth::attempt($credentials)){
-        //     $request->session()->regenerate();
-        //     return redirect()->route('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
-        // }
+        //ログイン処理(管理ユーザー以外)
+        $credentials = $request->only(
+            'user_id' ,
+            'password'
+        );
+        if(Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect()->route('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
+        }
 
                 
         
@@ -71,7 +70,7 @@ class UserController extends Controller
         }
         return view('shop.index');
     }
-    public function user_edit_post(UserEditRequest $request){
+    public function user_edit_post(UserRequest $request){
         //ページ表示用項目
         $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;

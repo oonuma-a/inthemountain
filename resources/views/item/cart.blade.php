@@ -127,7 +127,7 @@
             @endforeach
             <div class="detail-row">
                 <div class="detail-row">
-                    <div class="cart-btn">
+                    <div class="btn-bottom">
                         <form action="{{route('item.cart')}}" method="post" name="cartdrop">
                             @csrf
                             <input type="hidden" name="cart_drop_flg" value="1">

@@ -97,7 +97,7 @@
 				<form class="d-flex" action="{{route('item.cart')}}" method="get" name="cartform">
 					@csrf
 					<input type="hidden" name="cart_add" value="1">
-					<a href="javascript:cartform.submit()" class="btn btn-outline-dark" type="submit">
+					<a href="javascript:cartform.submit()" class="cart-btn btn-outline-dark" type="submit">
 						<i class="bi-cart-fill me-1"></i>
 						Cart
 						<span class="badge bg-dark text-white ms-1 rounded-pill">
