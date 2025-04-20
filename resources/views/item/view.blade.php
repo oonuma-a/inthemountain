@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('css')
-    <link href="{{asset('/css/item_styles.css')}}" rel="stylesheet" />
-    <script src="{{asset('/js/item_scripts.js')}}"></script>
+    <link href="{{asset('css/item_styles.css')}}" rel="stylesheet" />
+    <script src="{{asset('js/item_scripts.js')}}"></script>
 @endsection
 @section('content')
  <!-- Product section-->

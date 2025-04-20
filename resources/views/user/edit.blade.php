@@ -7,8 +7,8 @@
     <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
 
-    <link href="{{asset('/css/login_style.css')}}" rel="stylesheet" />
-    <script src="{{asset('/js/login_scripts.js')}}"></script>
+    <link href="{{asset('css/login_style.css')}}" rel="stylesheet" />
+    <script src="{{asset('js/login_scripts.js')}}"></script>
 @endsection
 @section('content')
     <div class="container">

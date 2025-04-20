@@ -1,9 +1,9 @@
 @extends('layouts.layout')
 @section('css')
     <title>Windmill Dashboard</title>
-    <link href="{{asset('/css/list_style.css')}}" rel="stylesheet" />
-    <script src="{{asset('/js/charts-lines.js')}}" defer></script>
-    <script src="{{asset('/js/charts-pie.js')}}" defer></script>
+    <link href="{{asset('css/list_style.css')}}" rel="stylesheet" />
+    <script src="{{asset('js/charts-lines.js')}}" defer></script>
+    <script src="{{asset('js/charts-pie.js')}}" defer></script>
 @endsection
 @section('content')
   <body>

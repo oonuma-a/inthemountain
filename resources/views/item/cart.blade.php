@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('css')
-    <link href="{{asset('/css/homepage_styles.css')}}" rel="stylesheet" />
-    <script src="{{asset('/js/homepage_scripts.js')}}"></script>
+    <link href="{{asset('css/homepage_styles.css')}}" rel="stylesheet" />
+    <script src="{{asset('js/homepage_scripts.js')}}"></script>
 @endsection
 @section('content')
         <!-- 商品一覧 -->

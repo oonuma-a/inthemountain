@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('css')
-    <link href="{{asset('/css/homepage_styles.css')}}" rel="stylesheet" />
-    <script src="{{asset('/js/homepage_scripts.js')}}"></script>
+    <link href="{{asset('css/homepage_styles.css')}}" rel="stylesheet" />
+    <script src="{{asset('js/homepage_scripts.js')}}"></script>
 @endsection
 @section('content')
 <!-- Header-->
@@ -63,7 +63,7 @@
                             <input type="text" name="item_name_search" class="search-item" placeholder="商品名を検索する">
                         @endif
                         <a href="javascript:searchform.submit()" class="search-icon">
-                            <img src="{{asset('image/search-icon.png')}}" alt="">
+                            <img src="{{asset('images/search-icon.png')}}" alt="">
                         </a>
                     </div>
                 </form>
@@ -129,7 +129,7 @@
                                     <div class="item-img">
                                         @if(is_null($data->image))
                                             <a href="javascript:itemForm_{{$loop->index}}.submit()">
-                                                <img class="card-img-top" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
+                                                <img class="card-img-top" src="{{ Storage::url('images/blank_image.png')}}" alt="商品の画像">
                                             </a>
                                         @else
                                             <a href="javascript:itemForm_{{$loop->index}}.submit()">
