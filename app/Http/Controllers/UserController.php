@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function user_index_get(Request $request){
+    public function index(Request $request){
         //表示機能
         $userSelect = users::paginate(10);
         return view('user.index',compact('userSelect'));
@@ -25,10 +25,10 @@ class UserController extends Controller
         $userSelect = users::paginate(10);
         return view('user.index',compact('userSelect'));
     }
-    public function user_create_get(){
+    public function create(){
         return view('user.create');
     }
-    public function user_create_post(UserRequest $request){
+    public function store(UserRequest $request){
         //ページ表示用項目
         $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;
@@ -62,7 +62,7 @@ class UserController extends Controller
         
         return redirect()->route('shop.index',compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
     }
-    public function user_edit_get(Request $request){
+    public function edit(Request $request){
         //ユーザー情報更新画面
         if(isset($request->user_update_flg)){
             $userUpdate = users::find($request->id);
@@ -70,7 +70,7 @@ class UserController extends Controller
         }
         return view('shop.index');
     }
-    public function user_edit_post(UserRequest $request){
+    public function update(UserRequest $request){
         //ページ表示用項目
         $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;

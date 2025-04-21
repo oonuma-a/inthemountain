@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function auth_index_get(Request $request){
+    public function index(Request $request){
         //ページ表示用項目
         $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;

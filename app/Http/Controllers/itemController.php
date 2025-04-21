@@ -9,7 +9,7 @@ use App\Http\Requests\ItemRequest;
 
 class itemController extends Controller
 {
-    public function item_index_get(Request $request){
+    public function index(Request $request){
         //商品情報表示画面
         $selectItem = item::all();
         return view('item.index', compact('selectItem'));
@@ -59,10 +59,10 @@ class itemController extends Controller
         $selectItem = item::find($request->id);
         return view('item.view', compact('selectItem'));
     }
-    public function item_create_get(){
+    public function create(){
         return view('item.create');
     }
-    public function item_create_post(ItemRequest $request){
+    public function store(ItemRequest $request){
         //ページ表示用項目
         $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;
@@ -87,7 +87,7 @@ class itemController extends Controller
         $itemdata = item::latest('update_at')->paginate($paginateChangeValue);
         return redirect()->route('shop.index',compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
     }
-    public function item_edit_get(Request $request){
+    public function edit(Request $request){
         //商品更新処理：更新する商品を表示
         $updateItem = item::find($request->id);
         //遷移時にトップ画面、商品編集画面判定
@@ -98,7 +98,7 @@ class itemController extends Controller
         }
         return view('item.edit', compact('updateItem','item_index_edit'));
     }
-    public function item_edit_post(ItemRequest $request){
+    public function update(ItemRequest $request){
         //ページ表示用項目
         $paginateArray = array(5,20,40,100);
         $paginateChangeValue = 20;

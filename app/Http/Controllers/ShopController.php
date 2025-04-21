@@ -7,7 +7,7 @@ use App\Models\item;
 
 class ShopController extends Controller
 {
-    public function shop_index_get(Request $request){
+    public function index(Request $request){
         // session()->flush();
         // dd($request->all());
         //ページネーション値配列
@@ -75,19 +75,5 @@ class ShopController extends Controller
         //表示機能
         $itemdata = item::latest('update_at')->paginate(20);
         return redirect()->route('shop.index', compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
-    }
-
-    
-    public function shop_create_get(){
-        return view('shop.index');
-    }
-    public function shop_create_post(){
-        return view('shop.index');
-    }
-    public function shop_edit_get(){
-        return view('shop.index');
-    }
-    public function shop_edit_post(){
-        return view('shop.index');
     }
 }
