@@ -19,78 +19,86 @@
         <div class="item-view-option">
             <!-- 詳細表示 -->
             <form action="{{route('shop.index')}}" method="get" name="detailform" class="detail-form">
-                @csrf
-                @if(isset($paginateChangeValue))
-                    <input type="hidden" name="paginateChangeValue" value="{{$paginateChangeValue}}">
-                @endif
-                @if(isset($item_name_search))
-                    <input type="hidden" name="item_name_search" class="search-item" value="{{$item_name_search}}">
-                @endif
-                @if(isset($sale_search))
-                    <input type="hidden" name="sale_search" value="1">
-                @endif
-                @if(isset($category_search))
-                    <input type="hidden" name="category_search" value="{{$category_search}}">
-                @endif
-                @if(isset($detail_select))
-                    <input type="hidden" name="detail_select" value="{{$detail_select}}">
-                @endif
+                @foreach(request()->except('page', 'detail_select') as $key => $value)
+                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                @endforeach
+
                 <select name="detail_select" class="detail-select" onchange="submit()">
                     <option value="1" selected>一覧表示</option>
                     <option value="2">詳細表示</option>
                 </select>
-            </form>                  
+            </form>
+
+            <!-- 検索フォーム -->
             <div class="item-view-option-right">
+                <!-- セール中の商品 -->
+                <form action="{{route('shop.index')}}" method="get" name="saleform">
+                    @foreach(request()->except('page', 'sale_search') as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+                    <input type="checkbox" name="sale_search" onchange="submit()"
+
+                    @if(!empty($inputs['sale_search']))
+                        value=""
+                        {{ $inputs['sale_search'] ? 'checked' : '' }}
+                    @else
+                        value="1"
+                    @endif
+                    >
+                </form>
+
+                <!-- アイテムカテゴリ検索 -->
+                <form action="{{route('shop.index')}}" method="get">
+                    @foreach(request()->except('page', 'detail_select') as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+                    <select name="category_search"  class="dropdown-item" onchange="submit()">
+                        <li>
+                            <option class="dropdown-item bg-white">カテゴリー</option>
+                        </li>
+                        @foreach($categories as $category)
+                            <li>
+                            <option class="dropdown-item bg-white" value="{{$category}}"
+                                @if(!empty($inputs['category_search']))
+                                    {{ $category == $inputs['category_search'] ? 'selected' : '' }}
+                                @endif
+                            >
+                                {{$category}}
+                            </option>
+                            </li>
+                        @endforeach
+                    </select>
+                </form>
                 <!-- 商品検索 -->
-                <form  method="get" action="{{route('shop.index')}}" name="searchform">
-                    @csrf
-                    @if(isset($paginateChangeValue))
-                        <input type="hidden" name="paginateChangeValue" value="{{$paginateChangeValue}}">
-                    @endif
-                    @if(isset($sale_search))
-                        <input type="hidden" name="sale_search" value="1">
-                    @endif
-                    @if(isset($category_search))
-                        <input type="hidden" name="category_search" value="{{$category_search}}">
-                    @endif
-                    @if(isset($detail_select))
-                        <input type="hidden" name="detail_select" value="{{$detail_select}}">
-                    @endif
+                <form method="get" action="{{ route('shop.index') }}" name="searchform">
+                    @foreach(request()->except('page', 'item_name_search') as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+
                     <div class="search-area">
-                        @if(isset($item_name_search))
-                            <input type="text" name="item_name_search" class="search-item" value="{{$item_name_search}}">
-                        @else
-                            <input type="text" name="item_name_search" class="search-item" placeholder="商品名を検索する">
-                        @endif
+                        <input type="text" name="item_name_search" class="search-item"
+                            value="{{ request('item_name_search', '') }}" placeholder="商品名を検索する">
                         <a href="javascript:searchform.submit()" class="search-icon">
-                            <img src="{{asset('image/search-icon.png')}}" alt="">
+                            <img src="{{ asset('image/search-icon.png') }}" alt="">
                         </a>
                     </div>
                 </form>
+
                 <!-- 表示件数 -->
                 <div class="view-option-right-bottom">
                     <form action="{{route('shop.index')}}" method="get" class="item-pagination-form">
-                        @csrf
-                        @if(isset($item_name_search))
-                            <input type="hidden" name="item_name_search" class="search-item" value="{{$item_name_search}}">
-                        @endif
-                        @if(isset($sale_search))
-                            <input type="hidden" name="sale_search" value="1">
-                        @endif
-                        @if(isset($category_search))
-                            <input type="hidden" name="category_search" value="{{$category_search}}">
-                        @endif
-                        @if(isset($detail_select))
-                            <input type="hidden" name="detail_select" value="{{$detail_select}}">
-                        @endif
-                        表示件数：<select name="paginateChangeValue"  onchange="submit()" class="item-select">
-                        @foreach($paginateArray as $paginate)
-                            @if($paginateChangeValue == $paginate)
-                                <option value="{{$paginate}}" selected>{{$paginate}}件</option>
-                            @else
-                                <option value="{{$paginate}}">{{$paginate}}件</option>
-                            @endif
+                        @foreach(request()->except('page', 'paginateChangeValue') as $key => $value)
+                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                         @endforeach
+
+                        表示件数：<select name="paginateChangeValue"  onchange="submit()" class="item-select">
+                            @foreach($pagedata['paginateArray'] as $paginate)
+                                @if($pagedata['paginateChangeValue'] == $paginate)
+                                    <option value="{{$paginate}}" selected>{{$paginate}}件</option>
+                                @else
+                                    <option value="{{$paginate}}">{{$paginate}}件</option>
+                                @endif
+                            @endforeach
                         </select>
                     </form>
                 </div>
@@ -98,13 +106,9 @@
         </div>
         <!-- ページネーション -->
         <div class="pagination">
-            @if(isset($item_name_search) or isset($paginateChangeValue))
-                {{$itemdata->appends(request()->input())->links()}}
-            @else
-                {{$itemdata->links() }}
-            @endif
-        </div> 
-        
+            {{ $itemdata->appends(request()->all())->links() }}
+        </div>
+
         <div class="container px-4 px-lg-5 mt-4">
                 <!-- 商品一覧 -->
                 @if(count($itemdata) == 0)
@@ -150,7 +154,6 @@
                                                     @for($i = 0; $i < $data->star; $i++)
                                                         <div class="bi-star-fill"></div>
                                                     @endfor
-                                                @else
                                                 @endif
                                             </div>
                                             <!-- Product price-->
@@ -171,7 +174,7 @@
                                     <input type="hidden" name="item_number" value="1">
                                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                         <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="javascript:itemCartForm_{{$loop->index}}.submit()">カートに追加</a></div>
-                                    </div> 
+                                    </div>
                                 </form>
                                 <!-- Product actions Update & delete-->
                                 @auth
@@ -184,7 +187,7 @@
                                                     <a class="btn btn-outline-dark mt-auto" href="javascript:itemUpdateForm_{{$loop->index}}.submit()">商品を編集</a>
                                                 </div>
                                             </form>
-                                        </div> 
+                                        </div>
                                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                             <form action="{{route('item.index')}}" method="post" name="itemDeleteForm_{{$loop->index}}">
                                                 @csrf
@@ -192,7 +195,7 @@
                                                 <input type="hidden" name="id" value="{{$data->id}}">
                                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="javascript:itemDeleteForm_{{$loop->index}}.submit()">商品を削除</a></div>
                                             </form>
-                                        </div> 
+                                        </div>
                                     @endif
                                 @endauth
                             </div>
@@ -201,10 +204,10 @@
                 @endif
             </div>
         </div>
-        
+
         <!-- ページネーション -->
         <div class="d-flex justify-content-center small text-warning mb-2">
-            @if(isset($item_name_search) or isset($paginateChangeValue))
+            @if(isset($itemdata->item_name_search) or isset($itemdata->paginateChangeValue))
                 {{$itemdata->appends(request()->input())->links()}}
             @else
                 {{$itemdata->links() }}

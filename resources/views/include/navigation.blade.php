@@ -12,30 +12,18 @@
 						<li><a class="dropdown-item" href="{{route('shop.index')}}">すべての商品</a></li>
 						<li><hr class="dropdown-divider" /></li>
 						<li>
-							<form action="{{route('shop.index')}}" method="get" name="saleform">
-								@csrf
+							<form action="{{route('shop.index')}}" method="get" name="header_saleform">
 								<input type="hidden" name="sale_search" value="1">
-								<a class="dropdown-item" href="javascript:saleform.submit()">セール中の商品</a>
+								<a class="dropdown-item" href="javascript:header_saleform.submit()">セール中の商品</a>
 							</form>
 						</li>
-						<form action="{{route('shop.index')}}" method="get">
-							@csrf
-							<input type="hidden" name="category_search" value="1">
-							<select name="category_search"  class="dropdown-item" onchange="submit()">
-								<li><option class="dropdown-item bg-white">カテゴリー</option></li>
-								<li><option class="dropdown-item bg-white" value="アウター">アウター</option></li>
-								<li><option class="dropdown-item bg-white" value="インナー">インナー</option></li>
-								<li><option class="dropdown-item bg-white" value="レインウェア">レインウェア</option></li>
-								<li><option class="dropdown-item bg-white" value="パンツ">パンツ</option></li>
-								<li><option class="dropdown-item bg-white" value="ハイキングシューズ">ハイキングシューズ</option></li>
-								<li><option class="dropdown-item bg-white" value="トレッキングシューズ">トレッキングシューズ</option></li>
-								<li><option class="dropdown-item bg-white" value="ブーツ">ブーツ</option></li>
-								<li><option class="dropdown-item bg-white" value="スニーカー">スニーカー</option></li>
-								<li><option class="dropdown-item bg-white" value="バッグ/リュック">バッグ/リュック</option></li>
-								<li><option class="dropdown-item bg-white" value="帽子/ハット/キャップ">帽子/ハット/キャップ</option></li>
-								<li><option class="dropdown-item bg-white" value="手袋/グローブ">手袋/グローブ</option></li>
-								<li><option class="dropdown-item bg-white" value="登山グッズ">登山グッズ</option></li>
-							</select>
+						<li><hr class="dropdown-divider" /></li>
+						<form action="{{route('shop.index')}}" method="get" name="header_categoryform">
+							@foreach($categories as $category)
+								<li>
+									<input type="submit" name="category_search" class="dropdown-item" value="{{$category}}">
+								</li>
+							@endforeach
 						</form>
 					</ul>
 				</li>
@@ -52,19 +40,19 @@
 							<li><a class="dropdown-item" href="#">ユーザーメニュー</a></li>
 							<li><hr class="dropdown-divider" /></li>
 							<li>
-								<form class="d-flex" method="get" action="{{route('user.edit')}}" name="editform">
+								<form class="d-flex" method="get" action="{{route('user.edit')}}" name="header_editform">
 									@csrf
 									<input type="hidden" name="user_update_flg" value="1">
 									<input type="hidden" name="id" value="{{Auth::id()}}">
-									<a class="dropdown-item" aria-current="page" href="javascript:editform.submit()">登録情報変更</a>		
+									<a class="dropdown-item" aria-current="page" href="javascript:header_editform.submit()">登録情報変更</a>
 								</form>
 							</li>
 							<li>
-								<form class="d-flex" method="post" action="{{route('auth.index')}}" name="logoutform">
+								<form class="d-flex" method="post" action="{{route('auth.index')}}" name="header_logoutform">
 									@csrf
 									<input type="hidden" name="logout_flg" value="1">
 									<input type="hidden" name="id" value="1">
-									<a class="dropdown-item" aria-current="page" href="javascript:logoutform.submit()">ログアウト</a>
+									<a class="dropdown-item" aria-current="page" href="javascript:header_logoutform.submit()">ログアウト</a>
 								</form>
 							</li>
 						</ul>
@@ -94,10 +82,10 @@
 						ゲスト 様
 					@endguest
 				</p>
-				<form class="d-flex" action="{{route('item.cart')}}" method="get" name="cartform">
+				<form class="d-flex" action="{{route('item.cart')}}" method="get" name="header_cartform">
 					@csrf
 					<input type="hidden" name="cart_add" value="1">
-					<a href="javascript:cartform.submit()" class="cart-btn btn-outline-dark" type="submit">
+					<a href="javascript:header_cartform.submit()" class="cart-btn btn-outline-dark" type="submit">
 						<i class="bi-cart-fill me-1"></i>
 						Cart
 						<span class="badge bg-dark text-white ms-1 rounded-pill">

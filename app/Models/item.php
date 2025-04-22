@@ -2,18 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class item extends Model
+class Item extends Model
 {
+    protected $table = 'item';
     protected $guarded = array('id');
-    protected $table = 'item'; 
     const UPDATED_AT = 'update_at';
     const CREATED_AT = null;  
-    public function getKeyType()
-    {
-        return 'string';
-    }
-    
+
+    protected $fillable = [
+        'item_name',
+        'item_number',
+        'item_category',
+        'item_text',
+        'star',
+        'image',
+        'price',
+        'discount_price',
+        'update_at',
+    ];
 }
