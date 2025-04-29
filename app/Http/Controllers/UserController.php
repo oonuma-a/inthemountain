@@ -14,7 +14,7 @@ class UserController extends Controller
         //表示機能
         $userSelect = users::paginate(10);
         return view('user.index',compact('userSelect'));
-        
+
     }
     public function user_index_post(Request $request){
         //削除処理
@@ -47,7 +47,7 @@ class UserController extends Controller
             $userInsert = new users;
             $userInsert->fill($userNewData)->save();
         }
-        
+
         //ログイン処理(管理ユーザー以外)
         $credentials = $request->only(
             'user_id' ,
@@ -58,8 +58,8 @@ class UserController extends Controller
             return redirect()->route('shop.index',  compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
         }
 
-                
-        
+
+
         return redirect()->route('shop.index',compact('itemdata','paginateArray','paginateChangeValue','item_name_search','category_search','sale_search','detail_select'));
     }
     public function edit(Request $request){

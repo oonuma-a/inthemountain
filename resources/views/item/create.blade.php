@@ -18,7 +18,7 @@
                         <p>商品名</p><div class="required-form">必須</div>
                     </div>
                     <input type="text" class="item-create-input" name="item_name">
-                    
+
                     <div class="item-label ">
                         <p>商品カテゴリー</p><div class="required-form">必須</div>
                     </div>

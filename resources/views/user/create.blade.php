@@ -42,7 +42,7 @@
                             <p class="sr-only">ログインパスワード（確認用）</p><div class="required-form">必須</div>
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="パスワードを入力してください（確認用）">
                         </div>
-                        
+
                         <div class="user-form">
                             <p class="sr-only">お名前</p>
                             <input type="text" class="form-control" id="user_name" name="user_name" placeholder="お名前を入力してください">

@@ -26,7 +26,7 @@ class ItemRequest extends FormRequest
         if (!empty($this->old())) {
             return [];
         }
-        
+
         return[
             'item_name' => 'required|max:30',
             'item_category' => 'required',

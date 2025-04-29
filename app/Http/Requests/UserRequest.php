@@ -48,9 +48,9 @@ class UserRequest extends FormRequest
             'user_name' => 'max:10',
             'email' => 'required|email|max:50|'. $unique_email,
         ];
-        
+
     }
-    
+
 
     public function messages()
     {
@@ -69,6 +69,6 @@ class UserRequest extends FormRequest
             'email.max' => 'メールアドレスは50文字以下で登録してください',
             'email.unique' => 'メールアドレスはすでに使用されています',
         ];
-        
+
     }
 }

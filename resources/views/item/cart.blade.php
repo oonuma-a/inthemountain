@@ -26,7 +26,7 @@
                         }
                         echo $price;
                     ?>円</p>
-                    
+
                     <form action="{{route('item.cart')}}" method="post" name="cartbuy">
                         @csrf
                         <input type="hidden" name="cart_buy_flg" value="1">
@@ -67,9 +67,9 @@
                                     <h5 class="fw-bolder detail-fw-bolder">{{$data->item_name}}</h5>
                                 </a>
                                 <p class="detail-category">{{$data->item_category}}</p>
-                                
+
                                 <!-- Product price-->
-                                
+
                                 @if(isset($data->discount_price))
                                     <p><span class="detail-text-muted text-decoration-line-through">{{$data->price}}円</span>
                                     <span class="detail-price price-discount ">{{$data->discount_price}}円</span></p>

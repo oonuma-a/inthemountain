@@ -70,7 +70,7 @@ class itemController extends Controller
      * 商品登録処理
      */
     public function store(ItemRequest $request){
-        
+
         $itemData = $request->all();
 
         try {
@@ -126,7 +126,7 @@ class itemController extends Controller
         }else{
             $itemData = NULL;
         }
-        
+
         //商品個数集計処理
         if(isset($itemData)){
             $itemQuantity = [];
@@ -208,7 +208,7 @@ class itemController extends Controller
             // dd();
             // dd(session()->all());
         }
-        
+
         //カートを空にする
         if(isset($request->cart_drop_flg)){
             $request->session()->flush();
@@ -221,7 +221,7 @@ class itemController extends Controller
         }else{
             $itemData = NULL;
         }
-        
+
         //商品個数集計処理
         if(isset($itemData)){
             $itemQuantity = [];
