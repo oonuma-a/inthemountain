@@ -62,7 +62,9 @@
                     <input type="text" name="item_number" class="item-create-input">
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent item-create-btn">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="javascript:itemForm.submit()">商品登録</a></div>
+                        <div class="login-btn">
+                            <input type="submit" class="common_btn" value="商品登録">
+                        </div>
                     </div>
                 </form>    
             </div>

@@ -24,16 +24,15 @@
                 <li>{{$error}}</li>
             @endforeach
         </ul>
-            <form id="register-form" class="text-left" name="updateform" method="post" action="{{route('user.edit')}}">
+            <form id="register-form" class="text-left" name="updateform" method="post" action="{{route('user.update')}}">
                 @csrf
-                <input type="hidden" name="user_update_flg" value="1">
-                <input type="hidden" name="id" value="{{$userUpdate->id}}">
+                <input type="hidden" name="id" value="{{$userdata->id}}">
                 <div class="login-form-main-message"></div>
                 <div class="main-login-form">
                     <div class="login-group">
                         <div class="user-form">
                             <p class="sr-only">ユーザーID</p><span class="required-form">必須</span>
-                            <input type="text" class="form-control" id="user_id" name="user_id" value="{{$userUpdate->user_id}}">
+                            <input type="text" class="form-control" id="user_id" name="user_id" value="{{ old('user_id', $userdata->user_id) }}">
                         </div>
 
                         <div class="user-form">
@@ -47,15 +46,15 @@
 
                         <div class="user-form">
                             <p class="sr-only">お名前</p>
-                            <input type="text" class="form-control" id="user_name" name="user_name" value="{{$userUpdate->user_name}}">
+                            <input type="text" class="form-control" id="user_name" name="user_name" value="{{ old('user_name', $userdata->user_name) }}">
                         </div>
                         <div class="user-form">
                             <p class="sr-only">メールアドレス</p><span class="required-form">必須</span>
-                            <input type="text" class="form-control" id="email" name="email" value="{{$userUpdate->email}}">
+                            <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $userdata->email) }}">
                         </div>
                     </div>
-                    <div  class="login-btn">
-                        <a href="javascript:updateform.submit()">登録する</a> 
+                    <div class="login-btn">
+                        <input type="submit" class="common_btn" value="更新する">
                     </div>
                 </div>
             </form>

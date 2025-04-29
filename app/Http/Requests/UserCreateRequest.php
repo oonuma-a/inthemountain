@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UserRequest extends FormRequest
+class UserCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,29 +24,12 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        if (!empty($this->old())) {
-            return [];
-        }
-        // ユーザーID編集の場合
-        if ($this -> user_id == Auth::user()->user_id) { 
-            $unique_user_id = 'unique:users,user_id,' . $this -> user_id . ',user_id';
-        // ユーザーID新規の場合
-        } else { 
-            $unique_user_id = 'unique:users';
-        }
-        // メールドレス編集の場合
-        if ($this -> email == Auth::user()->email) { 
-            $unique_email = 'unique:users,email,' . $this -> email . ',email';
-        // メールドレス新規の場合
-        } else { 
-            $unique_email = 'unique:users';
-        }
-        return[
-            'user_id' => 'required|max:10|regex:/^[!-~]+$/|'. $unique_user_id,
+        return [
+            'user_id' => 'required|max:10|regex:/^[!-~]+$/|unique:users',
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required',
             'user_name' => 'max:10',
-            'email' => 'required|email|max:50|'. $unique_email,
+            'email' => 'required|email|max:50|unique:users',
         ];
 
     }

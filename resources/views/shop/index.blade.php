@@ -78,9 +78,9 @@
                     <div class="search-area">
                         <input type="text" name="item_name_search" class="search-item"
                             value="{{ request('item_name_search', '') }}" placeholder="商品名を検索する">
-                        <a href="javascript:searchform.submit()" class="search-icon">
+                        <button type="submit" class="search-icon">
                             <img src="{{ asset('image/search-icon.png') }}" alt="">
-                        </a>
+                        </button>
                     </div>
                 </form>
 

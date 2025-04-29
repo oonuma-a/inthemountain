@@ -31,22 +31,33 @@
 			</ul>
 			<ul class="navbar-nav mb-2 mb-lg-0 ms-lg-4">
 				@guest
-				<li class="nav-item"><a class="nav-link" aria-current="page" href="{{route('user.create')}}">Register<br>新規登録</a></li>
-				<li class="nav-item"><a class="nav-link" href="{{route('auth.index')}}">Login<br>ログイン</a></li>
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="{{route('user.create')}}">Register<br>新規登録</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{route('auth.index')}}">Login<br>ログイン</a>
+					</li>
 				@endguest
 				@auth
+					@if(Auth::user()->user_authority == 1)
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin Manu<br>管理メニュー</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="{{route('user.index')}}">ユーザー一覧</a></li>
+								<li><a class="dropdown-item" href="{{route('user.create')}}">ユーザー追加</a></li>
+								<li><a class="dropdown-item" href="{{route('item.index')}}">商品一覧</a></li>
+								<li><a class="dropdown-item" href="{{route('item.create')}}">商品追加</a></li>
+							</li>
+						</ul>
+					</li>
+					@endif
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">User Manu<br>ユーザーメニュー</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">ユーザーメニュー</a></li>
-							<li><hr class="dropdown-divider" /></li>
 							<li>
-								<form class="d-flex" method="get" action="{{route('user.edit')}}" name="header_editform">
-									@csrf
-									<input type="hidden" name="user_update_flg" value="1">
-									<input type="hidden" name="id" value="{{Auth::id()}}">
-									<a class="dropdown-item" aria-current="page" href="javascript:header_editform.submit()">登録情報変更</a>
-								</form>
+								<a class="dropdown-item" aria-current="page" href="{{route('user.edit', ['id' => Auth::user()->id])}}">
+									登録情報変更
+								</a>
 							</li>
 							<li>
 								<form class="d-flex" method="post" action="{{route('auth.logout')}}" name="header_logoutform">
@@ -56,20 +67,6 @@
 							</li>
 						</ul>
 					</li>
-					@if(Auth::user()->user_authority == 1)
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin Manu<br>管理メニュー</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="#">管理メニュー</a></li>
-							<li><hr class="dropdown-divider" /></li>
-								<li><a class="dropdown-item" href="{{route('user.index')}}">ユーザー一覧</a></li>
-								<li><a class="dropdown-item" href="{{route('user.create')}}">管理ユーザー追加</a></li>
-								<li><a class="dropdown-item" href="{{route('item.index')}}">商品一覧</a></li>
-								<li><a class="dropdown-item" href="{{route('item.create')}}">商品追加</a></li>
-							</li>
-						</ul>
-					</li>
-					@endif
 				@endauth
 			</ul>
 			<div class="nav-cart">

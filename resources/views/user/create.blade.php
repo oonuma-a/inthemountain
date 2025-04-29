@@ -21,7 +21,6 @@
         <div class="login-form-1">
             <form id="register-form" class="text-left" name="registform" method="post" action="{{route('user.create')}}">
                 @csrf
-                <input type="hidden" name="user_create_flg" value="1">
                 <div class="login-form-main-message"></div>
                 <div class="main-login-form">
                     <ul class="error-message-list">
@@ -67,14 +66,16 @@
                         @endguest
                     </div>
                     <div  class="login-btn">
-                        <a href="javascript:registform.submit()">登録する</a> 
+                        <input type="submit" class="common_btn" value="登録する">
                     </div>
                 </div>
             </form>
             @guest
                 <div  class="login-btn">
                     <div class="etc-login-form">
-                        <p><a href="{{route('auth.login')}}">ログインする</a></p>
+                        <p>
+                            <a href="{{route('auth.index')}}">ログインする</a>
+                        </p>
                     </div>
                 </div>
             @endguest

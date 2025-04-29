@@ -54,7 +54,9 @@
                 </form>
                 <div  class="login-btn">
                     <div class="etc-login-form">
-                        <p><a href="{{route('user.create')}}">新規ユーザー登録する</a></p>
+                        <p>
+                            <a href="{{route('user.create')}}">新規ユーザー登録する</a>
+                        </p>
                     </div>
                 </div>
             </div>

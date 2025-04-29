@@ -32,7 +32,7 @@
                   <tbody
                     class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                   >
-                  @foreach($userSelect as $data)
+                  @foreach($userDatas as $data)
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
@@ -60,11 +60,9 @@
                         {{$data->update_at}}
                       </td>
                       <td class="px-4 py-3 text-sm">
-                      <form action="{{route('user.index')}}" method="post" name="deleteform_{{$loop->index}}">
+                      <form action="{{route('user.destroy', ['id' => $data->id])}}" method="post">
                           @csrf
-                          <input type="hidden" name="user_delete_flg" value="1">
-                          <input type="hidden" name="id" value="{{$data->id}}">
-                          <a class="btn btn-outline-dark" href="javascript:deleteform_{{$loop->index}}.submit()">削除</a>
+                          <input type="submit" class="btn btn-outline-dark" value="削除">
                       </form>
                       </td>
                     </tr>
