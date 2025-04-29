@@ -1,9 +1,11 @@
 @extends('layouts.layout')
 @section('css')
-    <title>Windmill Dashboard</title>
+    <title>商品一覧</title>
     <link href="{{asset('/css/list_style.css')}}" rel="stylesheet" />
     <script src="{{asset('/js/charts-lines.js')}}" defer></script>
     <script src="{{asset('/js/charts-pie.js')}}" defer></script>
+    <link href="{{asset('/css/homepage_styles.css')}}" rel="stylesheet" />
+    <script src="{{asset('/js/homepage_scripts.js')}}"></script>
 @endsection
 @section('content')
   <body>
@@ -14,6 +16,87 @@
             >
               商品一覧
             </h2>
+
+            <!-- 検索フォーム -->
+            <div class="item-view-option-right">
+                <!-- セール中の商品 -->
+                <form action="{{route('item.index')}}" method="get" name="saleform">
+                    @foreach(request()->except('page', 'sale_search') as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+                    <input type="checkbox" name="sale_search" onchange="submit()"
+
+                    @if(!empty($inputs['sale_search']))
+                        value=""
+                        {{ $inputs['sale_search'] ? 'checked' : '' }}
+                    @else
+                        value="1"
+                    @endif
+                    >
+                </form>
+
+                <!-- アイテムカテゴリ検索 -->
+                <form action="{{route('item.index')}}" method="get">
+                    @foreach(request()->except('page', 'detail_select') as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+                    <select name="category_search"  class="dropdown-item" onchange="submit()">
+                        <li>
+                            <option class="dropdown-item bg-white">カテゴリー</option>
+                        </li>
+                        @foreach($categories as $category)
+                            <li>
+                            <option class="dropdown-item bg-white" value="{{$category}}"
+                                @if(!empty($inputs['category_search']))
+                                    {{ $category == $inputs['category_search'] ? 'selected' : '' }}
+                                @endif
+                            >
+                                {{$category}}
+                            </option>
+                            </li>
+                        @endforeach
+                    </select>
+                </form>
+                <!-- 商品検索 -->
+                <form method="get" action="{{ route('item.index') }}" name="searchform">
+                    @foreach(request()->except('page', 'item_name_search') as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+
+                    <div class="search-area">
+                        <input type="text" name="item_name_search" class="search-item"
+                            value="{{ request('item_name_search', '') }}" placeholder="商品名を検索する">
+                        <a href="javascript:searchform.submit()" class="search-icon">
+                            <img src="{{ asset('image/search-icon.png') }}" alt="">
+                        </a>
+                    </div>
+                </form>
+
+                <!-- 表示件数 -->
+                <div class="view-option-right-bottom">
+                    <form action="{{route('item.index')}}" method="get" class="item-pagination-form">
+                        @foreach(request()->except('page', 'paginateChangeValue') as $key => $value)
+                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                        @endforeach
+
+                        表示件数：<select name="paginateChangeValue"  onchange="submit()" class="item-select">
+                            @foreach($pagedata['paginateArray'] as $paginate)
+                                @if($pagedata['paginateChangeValue'] == $paginate)
+                                    <option value="{{$paginate}}" selected>{{$paginate}}件</option>
+                                @else
+                                    <option value="{{$paginate}}">{{$paginate}}件</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ページネーション -->
+            <div class="pagination">
+                {{ $itemdata->appends(request()->all())->links() }}
+            </div>
+
             <!-- New Table -->
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
               <div class="w-full overflow-x-auto">
@@ -36,7 +119,7 @@
                   <tbody
                     class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                   >
-                  @foreach($selectItem as $data)
+                  @foreach($itemdata as $data)
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
@@ -48,7 +131,9 @@
                         </div>
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        {{$data->item_name}}
+                        <a href="{{route('item.view', ['id' => $data->id, 'from' => 'item'])}}" style="border-bottom: 1px solid #000;">
+                          {{$data->item_name}}
+                        </a>
                       </td>
                       <td class="px-4 py-3 text-sm">
                           {{$data->item_category}}
@@ -66,23 +151,14 @@
                         {{$data->update_at}}
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        <form action="{{route('item.edit')}}" method="get" name="itemUpdateForm_{{$loop->index}}">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$data->id}}">
-                            <input type="hidden" name="item_index_edit" value="1">
-                            <div class="text-center">
-                              <a class="btn btn-outline-dark" href="javascript:itemUpdateForm_{{$loop->index}}.submit()">編集</a>
-                            </div>
-                        </form>
+                          <a class="btn btn-outline-dark" href="{{route('item.edit', ['id' => $data->id, 'from' => 'item'])}}">編集</a>
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        
-                        <form action="{{route('item.index')}}" method="post" name="itemDeleteForm_{{$loop->index}}">
+                        <form action="{{route('item.destroy', ['id' => $data->id, 'from' => 'item'])}}" method="post">
                             @csrf
-                            <input type="hidden" name="item_delete_flg" value="1">
-                            <input type="hidden" name="item_index_delete" value="1">
-                            <input type="hidden" name="id" value="{{$data->id}}">
-                            <div class="text-center"><a class="btn btn-outline-dark" href="javascript:itemDeleteForm_{{$loop->index}}.submit()">削除</a></div>
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-outline-dark" value="商品を削除">
+                            </div>
                         </form>
                       </td>
                     </tr>

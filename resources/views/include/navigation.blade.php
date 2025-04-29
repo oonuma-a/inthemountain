@@ -13,8 +13,9 @@
 						<li><hr class="dropdown-divider" /></li>
 						<li>
 							<form action="{{route('shop.index')}}" method="get" name="header_saleform">
-								<input type="hidden" name="sale_search" value="1">
-								<a class="dropdown-item" href="javascript:header_saleform.submit()">セール中の商品</a>
+								<button type="submit" name="sale_search" value="1" class="dropdown-item">
+									セール中の商品
+								</button>
 							</form>
 						</li>
 						<li><hr class="dropdown-divider" /></li>

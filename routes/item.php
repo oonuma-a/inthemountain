@@ -5,17 +5,19 @@ use App\Http\Controllers\itemController;
 
 Route::controller(itemController::class)->group(function () {
     Route::get('/index', 'index')->name('item.index');
-    Route::post('/index', 'item_index_post');
-
-    Route::get('/view', 'item_view_get')->name('item.view');
-    Route::post('/view', 'item_view_post');
+    Route::get('/index/{id}', 'show')->name('item.view');
 
     Route::get('/create', 'create')->name('item.create');
-    Route::post('/create', 'store');
+    Route::post('/store', 'store')->name('item.store');
 
-    Route::get('/edit', 'edit')->name('item.edit');
-    Route::post('/edit', 'update');
+    Route::get('/edit/{id}', 'edit')->name('item.edit');
+    Route::post('/update/{id}', 'update')->name('item.update');
 
-    Route::get('/cart', 'item_cart_get');
+    Route::post('/destroy/{id}', 'destroy')->name('item.destroy');
+
+    // Route::get('/cart', 'cart_index')->name('cart.index');
+    // Route::post('/cart', 'cart_add')->name('item.add');
+    // Route::post('/cart', 'cart_remove')->name('item.remove');
+    Route::get('/cart', 'item_cart_get')->name('cart.index');
     Route::post('/cart', 'item_cart_post')->name('item.cart');
 });

@@ -7,9 +7,16 @@ use App\Repositories\Interfaces\ItemRepositoryInterface;
 
 class ItemRepository implements ItemRepositoryInterface
 {
+    protected $model;
+
+    public function __construct(Item $model)
+    {
+        $this->model = $model;
+    }
+
     public function getItem($inputs)
     {
-        $query = Item::query();
+        $query = $this->model->query();
 
         if (!empty($inputs['item_name_search'])) {
             $query->where('item_name', 'like', '%' . $inputs['item_name_search'] . '%');
@@ -23,13 +30,33 @@ class ItemRepository implements ItemRepositoryInterface
             $query->where('item_category', 'like', '%' . $inputs['category_search'] . '%');
         }
 
-        //ページネーションを使用した場合、ページ件数を変更
-        if(!empty($inputs['paginateChangeValue'])){
-            $paginateChangeValue = $inputs['paginateChangeValue'];
-        }else{
-            $paginateChangeValue = 20;
-        }
+        $paginateChangeValue = $inputs['paginateChangeValue'] ?? 20;
 
         return $query->latest('update_at')->paginate($paginateChangeValue);
+    }
+
+    public function findItemByID(int $id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function create($data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function update($id, $updateItemData)
+    {
+        $item = $this->model->find($id);
+        if ($item) {
+            $item->update($updateItemData);
+        }
+        return $item;
+    }
+
+    public function deleteItemByID(int $id)
+    {
+        $item = $this->model->findOrFail($id);
+        return $item->delete();
     }
 }

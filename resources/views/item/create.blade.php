@@ -12,10 +12,8 @@
                 @endforeach
             </ul>
             <div class="item-create-row">
-                <form action="{{route('item.create')}}" method="post" name="itemForm" enctype="multipart/form-data">
+                <form action="{{route('item.store')}}" method="post" name="itemForm" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="item_insert_flg" value="1">
-                    <input type="hidden" name="user_id" value="1">
                     <div class="item-label ">
                         <p>商品名</p><div class="required-form">必須</div>
                     </div>
@@ -25,18 +23,9 @@
                         <p>商品カテゴリー</p><div class="required-form">必須</div>
                     </div>
                     <select name="item_category" class="item-create-input">
-                        <option value="アウター">アウター</option>
-                        <option value="インナー">インナー</option>
-                        <option value="レインウェア">レインウェア</option>
-                        <option value="パンツ">パンツ</option>
-                        <option value="ハイキングシューズ">ハイキングシューズ</option>
-                        <option value="トレッキングシューズ">トレッキングシューズ</option>
-                        <option value="ブーツ">ブーツ</option>
-                        <option value="スニーカー">スニーカー</option>
-                        <option value="バッグ/リュック">バッグ/リュック</option>
-                        <option value="帽子/ハット/キャップ">帽子/ハット/キャップ</option>
-                        <option value="手袋/グローブ">手袋/グローブ</option>
-                        <option value="登山グッズ">登山グッズ</option>
+                        @foreach($categories as $category)
+                            <option value="{{$category}}">{{$category}}</option>
+                        @endforeach
                     </select>
                     <div class="item-label ">
                         <p>商品の説明文</p><div class="required-form">必須</div>

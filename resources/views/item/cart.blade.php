@@ -42,21 +42,14 @@
                             <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                         @endif
                         <div class="detail-left-column">
-                            <form action="{{route('item.view')}}" method="get" name="itemImgForm_{{$loop->index}}">
-                                @csrf
-                                <input type="hidden" name="id" value="{{$data->id}}">
-                                <input type="hidden" name="item_check_flg" value="1">
                                 <!-- Product image-->
-                                @if(is_null($data->image))
-                                    <a href="javascript:itemImgForm_{{$loop->index}}.submit()">
+                                <a href="{{route('item.view', ['id' => $data->id, 'from' => 'cart'])}}">
+                                    @if(is_null($data->image))
                                         <img class="detail-card-img-top" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
-                                    </a>
-                                @else
-                                    <a href="javascript:itemImgForm_{{$loop->index}}.submit()">
+                                    @else
                                         <img class="detail-card-img-top" src="{{ Storage::url($data->image)}}" alt="商品の画像">
-                                    </a>
-                                @endif
-                            </form>
+                                    @endif
+                                </a>
                             <!-- Product reviews-->
                             <div class="d-flex justify-content-center small text-warning mb-2 item-star">
                                 @if(isset($data->star))
@@ -70,13 +63,9 @@
                         <div class="detail-right-column">
                             <div class="detail-right-top">
                                 <!-- Product name-->
-                                <form action="{{route('item.view')}}" method="get" name="itemnameForm_{{$loop->index}}">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{$data->id}}">
-                                    <a href="javascript:itemnameForm_{{$loop->index}}.submit()">
-                                        <h5 class="fw-bolder detail-fw-bolder">{{$data->item_name}}</h5>
-                                    </a>
-                                </form>
+                                <a href="{{route('item.view', ['id' => $data->id, 'from' => 'cart'])}}">
+                                    <h5 class="fw-bolder detail-fw-bolder">{{$data->item_name}}</h5>
+                                </a>
                                 <p class="detail-category">{{$data->item_category}}</p>
                                 
                                 <!-- Product price-->
@@ -116,10 +105,7 @@
                             </div>                               
                         </div> 
                         <div class="">
-                            <form action="{{route('item.edit')}}" method="get" name="itemUpdateForm_{{$loop->index}}">
-                                @csrf
-                                <input type="hidden" name="id" value="{{$data->id}}">
-                            </form>
+                            <a class="btn btn-outline-dark item-btn" href="{{route('item.edit', ['id' => $itemdata->id, 'from' => 'cart')}}">商品を編集</a>
                         </div> 
                     </div>
                 </div>

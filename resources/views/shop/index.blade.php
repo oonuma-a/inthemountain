@@ -122,50 +122,53 @@
                     @foreach($itemdata as $data)
                         <div class="col mb-5">
                             <div class="card h-100">
-                                <form action="{{route('item.view')}}" method="get" name="itemForm_{{$loop->index}}">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{$data->id}}">
-                                    <!-- Sale badge-->
-                                    @if(isset($data->discount_price))
-                                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                                <input type="hidden" name="id" value="{{$data->id}}">
+                                <!-- Sale badge-->
+                                @if(isset($data->discount_price))
+                                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                                @endif
+
+                                <!-- Product image-->
+                                <div class="item-img">
+                                    @if(is_null($data->image))
+                                        <a href="{{route('item.view', ['id' => $data->id, 'from' => 'shop'])}}">
+                                            <img class="card-img-top" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
+                                        </a>
+                                    @else
+                                        <a href="{{route('item.view', ['id' => $data->id, 'from' => 'shop'])}}">
+                                            <img class="card-img-top" src="{{ Storage::url($data->image)}}" alt="商品の画像">
+                                        </a>
                                     @endif
-                                    <!-- Product image-->
-                                    <div class="item-img">
-                                        @if(is_null($data->image))
-                                            <a href="javascript:itemForm_{{$loop->index}}.submit()">
-                                                <img class="card-img-top" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
-                                            </a>
-                                        @else
-                                            <a href="javascript:itemForm_{{$loop->index}}.submit()">
-                                                <img class="card-img-top" src="{{ Storage::url($data->image)}}" alt="商品の画像">
-                                            </a>
-                                        @endif
-                                    </div>
-                                    <!-- Product details-->
-                                    <div class="card-body p-4">
-                                        <div class="text-center">
-                                            <!-- Product name-->
-                                            <a href="javascript:itemForm_{{$loop->index}}.submit()">
-                                                <h5 class="fw-bolder">{{$data->item_name}}</h5>
-                                            </a>
-                                            <!-- Product reviews-->
-                                            <div class="d-flex justify-content-center small text-warning mb-2 item-star">
-                                                @if(isset($data->star))
-                                                    @for($i = 0; $i < $data->star; $i++)
-                                                        <div class="bi-star-fill"></div>
-                                                    @endfor
-                                                @endif
-                                            </div>
-                                            <!-- Product price-->
-                                            @if(isset($data->discount_price))
-                                                <span class="text-muted text-decoration-line-through">{{$data->price}}円</span><br>
-                                                <span class="price-discount">{{$data->discount_price}}円</span>
-                                            @else
-                                                <span class="text-muted">{{$data->price}}円</span>
+                                </div>
+
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+
+                                        <!-- Product name-->
+                                        <a href="{{route('item.view', ['id' => $data->id, 'from' => 'shop'])}}">
+                                            <h5 class="fw-bolder">{{$data->item_name}}</h5>
+                                        </a>
+
+                                        <!-- Product reviews-->
+                                        <div class="d-flex justify-content-center small text-warning mb-2 item-star">
+                                            @if(isset($data->star))
+                                                @for($i = 0; $i < $data->star; $i++)
+                                                    <div class="bi-star-fill"></div>
+                                                @endfor
                                             @endif
                                         </div>
+
+                                        <!-- Product price-->
+                                        @if(isset($data->discount_price))
+                                            <span class="text-muted text-decoration-line-through">{{$data->price}}円</span><br>
+                                            <span class="price-discount">{{$data->discount_price}}円</span>
+                                        @else
+                                            <span class="text-muted">{{$data->price}}円</span>
+                                        @endif
                                     </div>
-                                </form>
+                                </div>
+
                                 <!-- Product actions-->
                                 <form action="{{route('item.cart')}}" method="post" name="itemCartForm_{{$loop->index}}">
                                     @csrf
@@ -180,20 +183,18 @@
                                 @auth
                                     @if(Auth::user()->user_authority == 1)
                                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                            <form action="{{route('item.edit')}}" method="get" name="itemUpdateForm_{{$loop->index}}">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$data->id}}">
-                                                <div class="text-center">
-                                                    <a class="btn btn-outline-dark mt-auto" href="javascript:itemUpdateForm_{{$loop->index}}.submit()">商品を編集</a>
-                                                </div>
-                                            </form>
+                                            <div class="text-center">
+                                                <a class="btn btn-outline-dark mt-auto" href="{{route('item.edit', ['id' => $data->id, 'from' => 'shop'])}}">
+                                                    商品を編集
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                            <form action="{{route('item.index')}}" method="post" name="itemDeleteForm_{{$loop->index}}">
+                                            <form action="{{route('item.destroy', ['id' => $data->id, 'from' => 'shop'])}}" method="post">
                                                 @csrf
-                                                <input type="hidden" name="item_delete_flg" value="1">
-                                                <input type="hidden" name="id" value="{{$data->id}}">
-                                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="javascript:itemDeleteForm_{{$loop->index}}.submit()">商品を削除</a></div>
+                                                <div class="text-center">
+                                                    <input type="submit" class="btn btn-outline-dark mt-auto" value="商品を削除">
+                                                </div>
                                             </form>
                                         </div>
                                     @endif

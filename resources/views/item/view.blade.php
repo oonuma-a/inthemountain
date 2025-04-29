@@ -9,29 +9,29 @@
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6">
-                @if(is_null($selectItem->image))
+                @if(is_null($itemdata->image))
                         <img class="card-img-top mb-5 mb-md-0" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
                 @else
-                        <img class="card-img-top mb-5 mb-md-0" src="{{ Storage::url($selectItem->image)}}" alt="商品の画像">
+                        <img class="card-img-top mb-5 mb-md-0" src="{{ Storage::url($itemdata->image)}}" alt="商品の画像">
                 @endif
             </div>
             <div class="col-md-6">
-                <div class="small mb-1">{{$selectItem->item_category}}</div>
-                <h1 class="display-5 fw-bolder">{{$selectItem->item_name}}</h1>
+                <div class="small mb-1">{{$itemdata->item_category}}</div>
+                <h1 class="display-5 fw-bolder">{{$itemdata->item_name}}</h1>
                 <div class="fs-5 mb-5">
-                    @if(isset($selectItem->discount_price))
-                        <span class="text-decoration-line-through">¥{{$selectItem->price}}</span>
-                        <span class="price-discount">¥{{$selectItem->discount_price}}</span>
+                    @if(isset($itemdata->discount_price))
+                        <span class="text-decoration-line-through">¥{{$itemdata->price}}</span>
+                        <span class="price-discount">¥{{$itemdata->discount_price}}</span>
                     @else
-                        <span>¥{{$selectItem->price}}</span>
+                        <span>¥{{$itemdata->price}}</span>
                     @endif
                 </div>
-                <p class="lead">{{$selectItem->item_text}}</p>
+                <p class="lead">{{$itemdata->item_text}}</p>
                 <div class="item-view-cart">
                     <form action="{{route('item.cart')}}" method="post" name="itemCartForm">
                         @csrf
                         <input type="hidden" name="cart_add_flg" value="1">
-                        <input type="hidden" name="id" value="{{$selectItem->id}}">
+                        <input type="hidden" name="id" value="{{$itemdata->id}}">
                         <select class="form-control text-center me-3" id="item_number" name="item_number" style="max-width: 3rem" >
                             @for($i=1; $i <= 10; $i++)
                                 <option value="{{$i}}">{{$i}}</option>
@@ -41,16 +41,12 @@
                     <a class="btn btn-outline-dark item-btn" href="javascript:itemCartForm.submit()">カートに追加</a>
                     @auth
                         @if(Auth::user()->user_authority == 1)
-                            <form action="{{route('item.edit')}}" method="get" name="itemUpdateForm">
+                            <a class="btn btn-outline-dark item-btn" href="{{ route('item.edit', ['id' => $itemdata->id, 'from' => request()->query('from')]) }}">
+                                商品を編集
+                            </a>
+                            <form action="{{route('item.destroy', ['id' => $itemdata->id, 'from' => request()->query('from')])}}" method="post">
                                 @csrf
-                                <input type="hidden" name="id" value="{{$selectItem->id}}">
-                                <a class="btn btn-outline-dark item-btn" href="javascript:itemUpdateForm.submit()">商品を編集</a>
-                            </form>
-                            <form action="{{route('item.index')}}" method="post" name="itemDeleteForm">
-                                @csrf
-                                <input type="hidden" name="item_delete_flg" value="1">
-                                <input type="hidden" name="id" value="{{$selectItem->id}}">
-                                <a class="btn btn-outline-dark item-btn" href="javascript:itemDeleteForm.submit()">商品を削除</a>
+                                <input type="submit" class="btn btn-outline-dark item-btn" value="商品を削除">
                             </form>
                         @endif
                     @endauth
