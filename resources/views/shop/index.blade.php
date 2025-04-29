@@ -170,13 +170,16 @@
                                 </div>
 
                                 <!-- Product actions-->
-                                <form action="{{route('item.cart')}}" method="post" name="itemCartForm_{{$loop->index}}">
+                                <form action="{{route('cart.update')}}" method="post">
                                     @csrf
-                                    <input type="hidden" name="cart_add_flg" value="1">
                                     <input type="hidden" name="id" value="{{$data->id}}">
                                     <input type="hidden" name="item_number" value="1">
                                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="javascript:itemCartForm_{{$loop->index}}.submit()">カートに追加</a></div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-outline-dark mt-auto">
+                                                カートに追加
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                                 <!-- Product actions Update & delete-->

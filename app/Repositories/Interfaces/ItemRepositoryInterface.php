@@ -8,6 +8,8 @@ interface ItemRepositoryInterface
 
     public function findItemByID(int $id);
 
+    public function findItemsByIds(array $id);
+
     public function create($itemData);
 
     public function update($id, $updateItemData);

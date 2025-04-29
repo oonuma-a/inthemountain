@@ -15,9 +15,8 @@ Route::controller(itemController::class)->group(function () {
 
     Route::post('/destroy/{id}', 'destroy')->name('item.destroy');
 
-    // Route::get('/cart', 'cart_index')->name('cart.index');
-    // Route::post('/cart', 'cart_add')->name('item.add');
-    // Route::post('/cart', 'cart_remove')->name('item.remove');
-    Route::get('/cart', 'item_cart_get')->name('cart.index');
-    Route::post('/cart', 'item_cart_post')->name('item.cart');
+    Route::get('/cart', 'cart_index')->name('cart.index');
+    Route::post('/cart/update', 'cart_update')->name('cart.update');
+    Route::post('/cart/remove', 'cart_remove')->name('cart.remove');
+    Route::post('/cart/clear', 'cart_clear')->name('cart.clear');
 });

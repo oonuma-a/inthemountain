@@ -117,34 +117,6 @@ class itemController extends Controller
         }
     }
 
-    public function item_cart_get(Request $request){
-        //カート表示機能
-        $cartData = $request->session()->get('cart_data');
-        if(isset($cartData)){
-            $cart_id = array_column($cartData, 'cart_id');
-            $itemData = item::find($cart_id);
-        }else{
-            $itemData = NULL;
-        }
-
-        //商品個数集計処理
-        if(isset($itemData)){
-            $itemQuantity = [];
-            foreach($itemData as $data){
-                $Quantity = 0;
-                foreach($cartData as $cart){
-                    if($data->id == $cart['cart_id']){
-                        $Quantity = $Quantity + (int)$cart['cart_item_number'];
-                    }
-                }
-                $itemQuantity = array_merge($itemQuantity,['id_'.$data->id => $Quantity]);
-            }
-        }else{
-            $itemQuantity = NULL;
-        }
-        return view('item.cart', compact('itemData','itemQuantity'));
-    }
-
     public function destroy($id, Request $request) {
         // 削除後の画面を設定
         $from = $request->input('from');
@@ -178,54 +150,26 @@ class itemController extends Controller
 
     }
 
-    public function item_cart_post(Request $request){
-        //カート追加機能
-        if(isset($request->cart_add_flg)){
-            $cart_id = $request->id;
-            $cart_item_number = $request->item_number;
-            $cartData = compact('cart_id','cart_item_number');
-            $request->session()->push('cart_data', $cartData);
-        }
-        //カート削除機能
-        // session()->flush();
-        // dd($request->all());
-        if(isset($request->cart_delete_flg)){
-            //データを取得しセッションクリア
-            $cartData = $request->session()->get('cart_data');
-            $request->session()->flush();
-            //削除データID取得
-            $delete_id = $request->id;
-            foreach($cartData as $data){
-                if($data['cart_id'] == $delete_id){
-                    continue;
-                }else{
-                    $cart_id = $data['cart_id'];
-                    $cart_item_number = $data['cart_item_number'];
-                    $cartData = compact('cart_id','cart_item_number');
-                    $request->session()->push('cart_data', $cartData);
-                }
-            }
-            // dd();
-            // dd(session()->all());
-        }
+    public function cart_index(Request $request){
+        // アイテムカテゴリ一覧を取得
+        $categories = config('constants.ITEM_CATEGORIES');
 
-        //カートを空にする
-        if(isset($request->cart_drop_flg)){
-            $request->session()->flush();
-        }
+        $itemQuantity = [];
+        $itemdata = [];
         //カート表示機能
         $cartData = $request->session()->get('cart_data');
-        if(isset($cartData)){
-            $cart_id = array_column($cartData, 'cart_id');
-            $itemData = item::find($cart_id);
-        }else{
-            $itemData = NULL;
+
+        if(!isset($cartData)){
+            $datas = compact('categories', 'itemdata','itemQuantity');
+            return view('item.cart', $datas);
         }
 
+        $cartItemIds = array_column($cartData, 'cart_id');
+        $itemdata = $this->itemService->findItemsByIds($cartItemIds);
+
         //商品個数集計処理
-        if(isset($itemData)){
-            $itemQuantity = [];
-            foreach($itemData as $data){
+        if(isset($itemdata)){
+            foreach($itemdata as $data){
                 $Quantity = 0;
                 foreach($cartData as $cart){
                     if($data->id == $cart['cart_id']){
@@ -237,6 +181,57 @@ class itemController extends Controller
         }else{
             $itemQuantity = NULL;
         }
-        return redirect()->route('item.cart', compact('itemData','itemQuantity'));
+
+        $datas = compact('categories', 'itemdata','itemQuantity');
+
+        return view('item.cart', $datas);
+    }
+
+    /**
+     * カート内アイテム個数編集機能
+     */
+    public function cart_update(Request $request){
+        $cart_id = $request->id;
+        $cart_item_number = $request->item_number;
+
+        // 既存のカートデータ取得
+        $cartData = $request->session()->get('cart_data', []);
+
+        $cartData[$cart_id] = [
+            'cart_id' => $cart_id,
+            'cart_item_number' => $cart_item_number,
+        ];
+
+        // カートに上書き
+        $request->session()->put('cart_data', $cartData);
+
+        return redirect()->route('cart.index');
+    }
+
+    /**
+     * カート内アイテム削除機能
+     */
+    public function cart_remove(Request $request)
+    {
+        $delete_id = $request->id;
+
+        $cartData = $request->session()->get('cart_data', []);
+
+        if (isset($cartData[$delete_id])) {
+            unset($cartData[$delete_id]);
+        }
+
+        // セッションに更新された配列を再設定
+        $request->session()->put('cart_data', $cartData);
+
+        return redirect()->route('cart.index');
+    }
+
+    /**
+     * カート内クリア機能
+     */
+    public function cart_clear(Request $request){
+        $request->session()->forget('cart_data');
+        return redirect()->route('cart.index');
     }
 }

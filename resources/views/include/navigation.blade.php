@@ -78,27 +78,26 @@
 						ゲスト 様
 					@endguest
 				</p>
-				<form class="d-flex" action="{{route('item.cart')}}" method="get" name="header_cartform">
+				<a href="{{route('cart.index')}}" class="d-flex">
 					@csrf
-					<input type="hidden" name="cart_add" value="1">
-					<a href="javascript:header_cartform.submit()" class="cart-btn btn-outline-dark" type="submit">
-						<i class="bi-cart-fill me-1"></i>
-						Cart
-						<span class="badge bg-dark text-white ms-1 rounded-pill">
-							@if(null != session()->get('cart_data'))
-							<?php
-								$itemQuantitySum = 0;
-								foreach(session()->get('cart_data') as $cart_quantity){
-									$itemQuantitySum = $itemQuantitySum + $cart_quantity['cart_item_number'];
-								}
-								echo $itemQuantitySum;
-							?>
-							@else
-								0
-							@endif
-						</span>
-					</a>
-				</form>
+						<div class="cart-btn btn-outline-dark">
+							<i class="bi-cart-fill me-1"></i>
+							Cart
+							<span class="badge bg-dark text-white ms-1 rounded-pill">
+								@if(null != session()->get('cart_data'))
+								<?php
+									$itemQuantitySum = 0;
+									foreach(session()->get('cart_data') as $cart_quantity){
+										$itemQuantitySum = $itemQuantitySum + $cart_quantity['cart_item_number'];
+									}
+									echo $itemQuantitySum;
+								?>
+								@else
+									0
+								@endif
+							</span>
+						</div>
+				</a>
 			</div>
 		</div>
 	</div>

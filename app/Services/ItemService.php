@@ -25,6 +25,11 @@ class ItemService
         return $this->itemRepo->findItemByID($id);
     }
 
+    public function findItemsByIds(array $ids)
+    {
+        return $this->itemRepo->findItemsByIds($ids);
+    }
+
     public function createItem($itemData)
     {
         try {

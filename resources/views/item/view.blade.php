@@ -28,17 +28,24 @@
                 </div>
                 <p class="lead">{{$itemdata->item_text}}</p>
                 <div class="item-view-cart">
-                    <form action="{{route('item.cart')}}" method="post" name="itemCartForm">
+                    <form action="{{route('cart.update')}}" method="post">
                         @csrf
-                        <input type="hidden" name="cart_add_flg" value="1">
                         <input type="hidden" name="id" value="{{$itemdata->id}}">
-                        <select class="form-control text-center me-3" id="item_number" name="item_number" style="max-width: 3rem" >
-                            @for($i=1; $i <= 10; $i++)
-                                <option value="{{$i}}">{{$i}}</option>
-                            @endfor
-                        </select>
+                        <label style="display: inline;">
+                            数量：
+                            <select name="item_number" style="max-width: 3rem" class="" id="item_number" >
+                                @for ($i = 1; $i <= $itemdata->item_number; $i++)
+                                    <option value="{{ $i }}">
+                                        {{ $i }}
+                                    </option>
+                                @endfor
+                            </select>
+                            個
+                        </label>
+                        <button type="submimt" class="btn btn-outline-dark item-btn">
+                            カートに追加
+                        </button>
                     </form>
-                    <a class="btn btn-outline-dark item-btn" href="javascript:itemCartForm.submit()">カートに追加</a>
                     @auth
                         @if(Auth::user()->user_authority == 1)
                             <a class="btn btn-outline-dark item-btn" href="{{ route('item.edit', ['id' => $itemdata->id, 'from' => request()->query('from')]) }}">

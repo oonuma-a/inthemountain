@@ -40,6 +40,11 @@ class ItemRepository implements ItemRepositoryInterface
         return $this->model->findOrFail($id);
     }
 
+    public function findItemsByIds(array $ids)
+    {
+        return $this->model->whereIn('id', $ids)->get();
+    }
+
     public function create($data)
     {
         return $this->model->create($data);

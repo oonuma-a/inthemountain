@@ -174,7 +174,7 @@
                                 </div>
                             </div>
                             <!-- Product actions-->
-                            <form action="{{route('item.cart')}}" method="post" name="itemCartForm_{{$loop->index}}">
+                            <form action="{{route('cart.index')}}" method="post" name="itemCartForm_{{$loop->index}}">
                                 @csrf
                                 <input type="hidden" name="cart_add_flg" value="1">
                                 <input type="hidden" name="id" value="{{$data->id}}">
