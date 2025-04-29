@@ -49,11 +49,9 @@
 								</form>
 							</li>
 							<li>
-								<form class="d-flex" method="post" action="{{route('auth.index')}}" name="header_logoutform">
+								<form class="d-flex" method="post" action="{{route('auth.logout')}}" name="header_logoutform">
 									@csrf
-									<input type="hidden" name="logout_flg" value="1">
-									<input type="hidden" name="id" value="1">
-									<a class="dropdown-item" aria-current="page" href="javascript:header_logoutform.submit()">ログアウト</a>
+									<input type="submit" class="dropdown-item" aria-current="page" value="ログアウト">
 								</form>
 							</li>
 						</ul>

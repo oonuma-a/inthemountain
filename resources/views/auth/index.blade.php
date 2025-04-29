@@ -20,9 +20,8 @@
             </div>
             <!-- Main Form -->
             <div class="login-form-1">
-                <form action ="{{route('auth.index')}}" method="post" id="login-form" class="text-left" name="loginform">
+                <form action ="{{route('auth.login')}}" method="post" id="login-form" class="text-left" name="loginform">
                     @csrf
-                    <input type="hidden" name="login_flg" value="1">
                     <div class="login-form-main-message">
                     </div>
 
@@ -49,7 +48,7 @@
                             </div>
                         </div>
                         <div  class="login-btn">
-                            <a href="javascript:loginform.submit()">ログインする</a>
+                            <input type="submit" value="ログインする">
                         </div>
                     </div>
                 </form>

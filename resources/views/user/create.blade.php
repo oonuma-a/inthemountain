@@ -74,7 +74,7 @@
             @guest
                 <div  class="login-btn">
                     <div class="etc-login-form">
-                        <p><a href="{{route('auth.index')}}">ログインする</a></p>
+                        <p><a href="{{route('auth.login')}}">ログインする</a></p>
                     </div>
                 </div>
             @endguest
