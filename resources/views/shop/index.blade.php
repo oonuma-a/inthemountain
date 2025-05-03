@@ -36,15 +36,17 @@
                     @foreach(request()->except('page', 'sale_search') as $key => $value)
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endforeach
-                    <input type="checkbox" name="sale_search" onchange="submit()"
-
-                    @if(!empty($inputs['sale_search']))
-                        value=""
-                        {{ $inputs['sale_search'] ? 'checked' : '' }}
-                    @else
-                        value="1"
-                    @endif
-                    >
+                    <label style="display: flex; align-items: center; gap: 0.3rem;">
+                      <input type="checkbox" name="sale_search" onchange="submit()"
+                          @if(!empty($inputs['sale_search']))
+                              value=""
+                              {{ $inputs['sale_search'] ? 'checked' : '' }}
+                          @else
+                              value="1"
+                          @endif
+                      >
+                      セール中の商品
+                  </label>
                 </form>
 
                 <!-- アイテムカテゴリ検索 -->
@@ -52,9 +54,9 @@
                     @foreach(request()->except('page', 'detail_select') as $key => $value)
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endforeach
-                    <select name="category_search"  class="dropdown-item" onchange="submit()">
+                    <select name="category_search"  class="dropdown-category-item" onchange="submit()">
                         <li>
-                            <option class="dropdown-item bg-white">カテゴリー</option>
+                            <option class="dropdown-item bg-white" disabled selected>カテゴリー</option>
                         </li>
                         @foreach($categories as $category)
                             <li>

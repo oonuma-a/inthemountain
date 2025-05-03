@@ -2,7 +2,6 @@
 
 namespace App\Services;
 use Exception;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
 use App\Repositories\Interfaces\UserRepositoryInterface;
@@ -48,6 +47,7 @@ class UserService
 
         try {
             // データ更新
+            $updateUserData['password'] = Hash::make($updateUserData['password']);
             return $this->userRepo->update($id, $updateUserData);
 
         } catch (\Exception $e) {

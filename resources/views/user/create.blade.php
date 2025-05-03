@@ -66,7 +66,7 @@
                         @endguest
                     </div>
                     <div  class="login-btn">
-                        <input type="submit" class="common_btn" value="登録する">
+                        <input type="submit" class="common-btn" value="登録する">
                     </div>
                 </div>
             </form>

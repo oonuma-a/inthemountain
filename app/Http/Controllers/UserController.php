@@ -66,7 +66,7 @@ class UserController extends Controller
             return redirect()->route('shop.index');
         }
 
-        // ユーザーカテゴリ一覧を取得
+        // アイテムカテゴリ一覧を取得
         $categories = config('constants.ITEM_CATEGORIES');
 
         //ユーザー更新処理

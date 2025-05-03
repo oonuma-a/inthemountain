@@ -5,7 +5,6 @@
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-				<li class="nav-item"><a class="nav-link" aria-current="page" href="{{route('shop.index')}}">Online Shop<br>ショップ</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sale List<br>商品一覧</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -78,7 +77,7 @@
 						ゲスト 様
 					@endguest
 				</p>
-				<a href="{{route('cart.index')}}" class="d-flex">
+				<a href="{{route('cart.index')}}" class="d-flex cart-a">
 					@csrf
 						<div class="cart-btn btn-outline-dark">
 							<i class="bi-cart-fill me-1"></i>

@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="login-btn">
-                        <input type="submit" class="common_btn" value="更新する">
+                        <input type="submit" class="common-btn" value="更新する">
                     </div>
                 </div>
             </form>

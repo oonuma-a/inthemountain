@@ -31,9 +31,9 @@
                         @endif
                     </ul>
 
-                    @if(!count($errors) == 0)
-                        @foreach($errors as $error)
-                            {{$error}}
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div class="error">{{ $error }}</div>
                         @endforeach
                     @endif
                     <div class="main-login-form">

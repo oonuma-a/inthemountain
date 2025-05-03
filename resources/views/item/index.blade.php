@@ -16,7 +16,7 @@
             >
               商品一覧
             </h2>
-
+            <!-- Section-->
             <!-- 検索フォーム -->
             <div class="item-view-option-right">
                 <!-- セール中の商品 -->
@@ -24,15 +24,17 @@
                     @foreach(request()->except('page', 'sale_search') as $key => $value)
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endforeach
-                    <input type="checkbox" name="sale_search" onchange="submit()"
-
-                    @if(!empty($inputs['sale_search']))
-                        value=""
-                        {{ $inputs['sale_search'] ? 'checked' : '' }}
-                    @else
-                        value="1"
-                    @endif
-                    >
+                    <label style="display: flex; align-items: center; gap: 0.3rem;">
+                      <input type="checkbox" name="sale_search" onchange="submit()"
+                          @if(!empty($inputs['sale_search']))
+                              value=""
+                              {{ $inputs['sale_search'] ? 'checked' : '' }}
+                          @else
+                              value="1"
+                          @endif
+                      >
+                      セール中の商品
+                  </label>
                 </form>
 
                 <!-- アイテムカテゴリ検索 -->
@@ -40,9 +42,9 @@
                     @foreach(request()->except('page', 'detail_select') as $key => $value)
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endforeach
-                    <select name="category_search"  class="dropdown-item" onchange="submit()">
+                    <select name="category_search"  class="dropdown-category-item" onchange="submit()">
                         <li>
-                            <option class="dropdown-item bg-white">カテゴリー</option>
+                            <option class="dropdown-item bg-white" disabled selected>カテゴリー</option>
                         </li>
                         @foreach($categories as $category)
                             <li>
@@ -58,7 +60,7 @@
                     </select>
                 </form>
                 <!-- 商品検索 -->
-                <form method="get" action="{{ route('item.index') }}" name="searchform">
+                <form method="get" action="{{ route('shop.index') }}" name="searchform">
                     @foreach(request()->except('page', 'item_name_search') as $key => $value)
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endforeach
@@ -66,9 +68,9 @@
                     <div class="search-area">
                         <input type="text" name="item_name_search" class="search-item"
                             value="{{ request('item_name_search', '') }}" placeholder="商品名を検索する">
-                        <a href="javascript:searchform.submit()" class="search-icon">
+                        <button type="submit" class="search-icon">
                             <img src="{{ asset('image/search-icon.png') }}" alt="">
-                        </a>
+                        </button>
                     </div>
                 </form>
 
@@ -105,15 +107,15 @@
                     <tr
                       class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                     >
-                      <th class="px-4 py-3">商品ID</th>
-                      <th class="px-4 py-3">商品名</th>
-                      <th class="px-4 py-3">商品カテゴリー</th>
-                      <th class="px-4 py-3">商品価格</th>
-                      <th class="px-4 py-3">値引き価格</th>
-                      <th class="px-4 py-3">在庫数</th>
-                      <th class="px-4 py-3">更新日</th>
-                      <th class="px-4 py-3"></th>
-                      <th class="px-4 py-3"></th>
+                      <th class="px-3 py-2">商品ID</th>
+                      <th class="px-3 py-2">商品名</th>
+                      <th class="px-3 py-2">商品カテゴリー</th>
+                      <th class="px-3 py-2">商品価格</th>
+                      <th class="px-3 py-2">値引き価格</th>
+                      <th class="px-3 py-2">在庫数</th>
+                      <th class="px-3 py-2">更新日</th>
+                      <th class="px-3 py-2"></th>
+                      <th class="px-3 py-2"></th>
                     </tr>
                   </thead>
                   <tbody

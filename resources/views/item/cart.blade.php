@@ -121,7 +121,7 @@
                     <div class="btn-bottom">
                         <form action="{{route('cart.clear')}}" method="post">
                             @csrf
-                            <button type="subimt">
+                            <button type="subimt" class="common-btn">
                                 カートを空にする
                             </button>
                         </form>

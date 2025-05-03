@@ -37,15 +37,17 @@
                     @foreach(request()->except('page', 'sale_search') as $key => $value)
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endforeach
-                    <input type="checkbox" name="sale_search" onchange="submit()"
-
-                    @if(!empty($inputs['sale_search']))
-                        value=""
-                        {{ $inputs['sale_search'] ? 'checked' : '' }}
-                    @else
-                        value="1"
-                    @endif
-                    >
+                    <label style="display: flex; align-items: center; gap: 0.3rem;">
+                      <input type="checkbox" name="sale_search" onchange="submit()"
+                          @if(!empty($inputs['sale_search']))
+                              value=""
+                              {{ $inputs['sale_search'] ? 'checked' : '' }}
+                          @else
+                              value="1"
+                          @endif
+                      >
+                      セール中の商品
+                  </label>
                 </form>
 
                 <!-- アイテムカテゴリ検索 -->
@@ -53,9 +55,9 @@
                     @foreach(request()->except('page', 'detail_select') as $key => $value)
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endforeach
-                    <select name="category_search"  class="dropdown-item" onchange="submit()">
+                    <select name="category_search"  class="dropdown-category-item" onchange="submit()">
                         <li>
-                            <option class="dropdown-item bg-white">カテゴリー</option>
+                            <option class="dropdown-item bg-white" disabled selected>カテゴリー</option>
                         </li>
                         @foreach($categories as $category)
                             <li>
@@ -129,57 +131,82 @@
                                         <img class="detail-card-img-top" src="{{ Storage::url($data->image)}}" alt="商品の画像">
                                     @endif
                                 </a>
-                                <!-- Product reviews-->
-                                <div class="d-flex justify-content-center small text-warning mb-2 item-star">
-                                    @if(isset($data->star))
-                                        @for($i = 0; $i < $data->star; $i++)
-                                            <div class="bi-star-fill"></div>
-                                        @endfor
-                                    @endif
-                                </div>
                             </div>
                             <div class="detail-right-column">
-                                <div class="detail-right-top">
-                                    <!-- Product name-->
-                                    <a href="{{route('item.view', ['id' => $data->id])}}">
-                                        <h5 class="fw-bolder detail-fw-bolder">{{$data->item_name}}</h5>
-                                    </a>
-                                    <p class="detail-category">{{$data->item_category}}</p>
-                                    <p class="detail-text">{{$data->item_text}}</p>
-                                    <!-- Product price-->
-                                    <p>
-                                    @if(isset($data->discount_price))
-                                        <p><span class="detail-text-muted text-decoration-line-through">{{$data->price}}円</span>&nbsp;
-                                        <span class="detail-price price-discount ">{{$data->discount_price}}円</span></p>
-                                    @else
-                                        <span class="detail-price detail-text-muted">{{$data->price}}円</span>
-                                    @endif
-                                    </p>
+                                <div class="detail-right-top"> 
+                                    <!-- Product name and category -->
+                                    <div>
+                                        <a href="{{ route('item.view', ['id' => $data->id]) }}" style="text-decoration: none;">
+                                            <h5 class="fw-bolder detail-fw-bolder">
+                                                {{$data->item_name}}
+                                            </h5>
+                                        </a>
+                                        <p class="detail-category">
+                                            （{{$data->item_category}}）
+                                        </p>
+                                    </div>
+
+                                    <!-- Product reviews -->
+                                    <div class="d-flex small text-warning mb-2 item-star">
+                                        @if(isset($data->star))
+                                            @for($i = 0; $i < $data->star; $i++)
+                                                <div class="bi-star-fill"></div>
+                                            @endfor
+                                        @endif
+                                    </div>
                                 </div>
+                                <div class="detail-right-middle">
+                                    <p class="detail-text">{{$data->item_text}}</p>
+
+                                    <!-- Product price -->
+                                    @if(isset($data->discount_price))
+                                        <p>
+                                            <span class="detail-text-muted text-decoration-line-through">{{$data->price}}円</span>&nbsp;
+                                            <span class="detail-price price-discount">{{$data->discount_price}}円</span>
+                                        </p>
+                                    @else
+                                        <p>
+                                            <span class="detail-price detail-text-muted">{{$data->price}}円</span>
+                                        </p>
+                                    @endif
+                                </div>
+
                                 <!-- Product actions-->
                                 <div class="detail-right-bottom">
-                                    <a class="btn btn-outline-dark mt-auto detail-btn" href="javascript:itemCartForm_{{$loop->index}}.submit()">カートに追加</a>
+                                    <form action="{{route('cart.update')}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{$data->id}}">
+                                        <input type="hidden" name="item_number" value="1">
+                                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-outline-dark mt-auto">
+                                                    カートに追加
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
                                     @auth
                                         @if(Auth::user()->user_authority == 1)
-                                            <a class="btn btn-outline-dark item-btn" href="{{route('item.edit', ['id' => $itemdata->id, 'from' => 'shop'])])}}">
-                                                商品を編集
-                                            </a>
+                                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 
-                                            <form action="{{route('item.destroy', ['id' => $data->id, 'from' => 'shop'])}}" method="post">
-                                                @csrf
-                                                <input type="submit" class="btn btn-outline-dark mt-auto detail-btn">商品を削除</a>
-                                            </form>
+                                            <a href="{{route('item.edit', ['id' => $data->id, 'from' => 'shop'])}}">
+                                                <button type="submit" class="btn btn-outline-dark mt-auto">
+                                                        商品を編集
+                                                </button>
+                                            </a>
+                                            </div>
+                                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                                <form action="{{route('item.destroy', ['id' => $data->id, 'from' => 'shop'])}}" method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-outline-dark mt-auto">
+                                                        商品を削除
+                                                    </button>
+                                                </form>
+                                            </div>
                                         @endif
                                     @endauth
                                 </div>
                             </div>
-                            <!-- Product actions-->
-                            <form action="{{route('cart.index')}}" method="post" name="itemCartForm_{{$loop->index}}">
-                                @csrf
-                                <input type="hidden" name="cart_add_flg" value="1">
-                                <input type="hidden" name="id" value="{{$data->id}}">
-                                <input type="hidden" name="item_number" value="1">
-                            </form>
                         </div>
                     </div>
                 @endforeach
