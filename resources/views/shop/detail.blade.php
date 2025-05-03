@@ -126,9 +126,9 @@
                             <div class="detail-left-column">
                                 <a href="{{route('item.view', ['id' => $data->id, 'from' => 'shop'])}}">
                                     @if(is_null($data->image))
-                                        <img class="detail-card-img-top" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
+                                        <img class="detail-card-img-top" src="{{ url('storage/image/blank_image.jpg') }}" alt="商品の画像">
                                     @else
-                                        <img class="detail-card-img-top" src="{{ Storage::url($data->image)}}" alt="商品の画像">
+                                        <img class="detail-card-img-top" src="{{ url('storage/image/' . basename($data->image)) }}" alt="商品の画像">
                                     @endif
                                 </a>
                             </div>

@@ -10,9 +10,9 @@
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6">
                 @if(is_null($itemdata->image))
-                        <img class="card-img-top mb-5 mb-md-0" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
+                        <img class="card-img-top mb-5 mb-md-0" src="{{ url('storage/image/blank_image.jpg') }}" alt="商品の画像">
                 @else
-                        <img class="card-img mb-5 mb-md-0" src="{{ Storage::url($itemdata->image)}}" alt="商品の画像">
+                        <img class="card-img mb-5 mb-md-0" src="{{ url('storage/image/' . basename($itemdata->image)) }}" alt="商品の画像">
                 @endif
             </div>
             <div class="col-md-6">

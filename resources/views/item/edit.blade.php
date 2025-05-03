@@ -20,7 +20,7 @@
                             <p>商品画像がありません。</p>
                         @else
                             <p>現在の商品画像</p>
-                            <img class="card-img-top mb-5 mb-md-0" src="{{ Storage::url($itemdata->image)}}" alt="商品の画像" />
+                            <img class="card-img-top mb-5 mb-md-0" src="{{ url('storage/image/' . basename($itemdata->image)) }}" alt="商品の画像" />
                         @endif
                         <input type="file" name="image" id="image">
                     </div>

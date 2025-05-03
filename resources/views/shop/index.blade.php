@@ -134,11 +134,11 @@
                                 <div class="item-img">
                                     @if(is_null($data->image))
                                         <a href="{{route('item.view', ['id' => $data->id, 'from' => 'shop'])}}">
-                                            <img class="card-img-top" src="{{ Storage::url('public/image/blank_image.png')}}" alt="商品の画像">
+                                            <img class="card-img-top" src="{{ url('storage/image/blank_image.jpg') }}" alt="商品の画像">
                                         </a>
                                     @else
                                         <a href="{{route('item.view', ['id' => $data->id, 'from' => 'shop'])}}">
-                                            <img class="card-img-top" src="{{ Storage::url($data->image)}}" alt="商品の画像">
+                                            <img class="card-img-top" src="{{ url('storage/image/' . basename($data->image)) }}" alt="商品の画像">
                                         </a>
                                     @endif
                                 </div>
