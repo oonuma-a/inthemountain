@@ -48,13 +48,15 @@
                     </form>
                     @auth
                         @if(Auth::user()->user_authority == 1)
-                            <a class="btn btn-outline-dark item-btn" href="{{ route('item.edit', ['id' => $itemdata->id, 'from' => request()->query('from')]) }}">
-                                商品を編集
-                            </a>
-                            <form action="{{route('item.destroy', ['id' => $itemdata->id, 'from' => request()->query('from')])}}" method="post">
-                                @csrf
-                                <input type="submit" class="btn btn-outline-dark item-btn" value="商品を削除">
-                            </form>
+                            <div class="view-item">
+                                <a class="btn btn-outline-dark item-btn" href="{{ route('item.edit', ['id' => $itemdata->id, 'from' => request()->query('from')]) }}">
+                                    商品を編集
+                                </a>
+                                <form action="{{route('item.destroy', ['id' => $itemdata->id, 'from' => request()->query('from')])}}" method="post">
+                                    @csrf
+                                    <input type="submit" class="btn btn-outline-dark item-btn" value="商品を削除">
+                                </form>
+                            </div>
                         @endif
                     @endauth
                 </div>
