@@ -60,7 +60,7 @@
                     </select>
                 </form>
                 <!-- 商品検索 -->
-                <form method="get" action="{{ route('shop.index') }}" name="searchform">
+                <form method="get" action="{{ route('item.index') }}" name="searchform">
                     @foreach(request()->except('page', 'item_name_search') as $key => $value)
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endforeach
